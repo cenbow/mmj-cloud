@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.homeManagement.mapper.WebShowcaseFileMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.homeManagement.model.WebShowcaseFile">
+        <id column="FILE_ID" property="fileId" />
+        <result column="FILE_NAME" property="fileName" />
+        <result column="SHOWECASE_ID" property="showecaseId" />
+        <result column="IMAGES_URL" property="imagesUrl" />
+        <result column="HRAF_URL" property="hrafUrl" />
+        <result column="ORDER_ID" property="orderId" />
+    </resultMap>
+
+</mapper>

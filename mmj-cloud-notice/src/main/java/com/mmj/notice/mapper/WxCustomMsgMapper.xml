@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.notice.mapper.WxCustomMsgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.notice.model.WxCustomMsg">
+        <id column="ID" property="id" />
+        <result column="WX_NO" property="wxNo" />
+        <result column="APPID" property="appid" />
+        <result column="APP_NAME" property="appName" />
+        <result column="ACCEPT_TYPE" property="acceptType" />
+        <result column="REPLY_TYPE" property="replyType" />
+        <result column="REPLY_CONTENT" property="replyContent" />
+        <result column="REPLY_IMG" property="replyImg" />
+        <result column="REPLY_DELAY" property="replyDelay" />
+        <result column="REPLY_TIME" property="replyTime" />
+        <result column="TAG_ID" property="tagId" />
+        <result column="TAG_NAME" property="tagName" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_ID" property="createId" />
+        <result column="CREATE_NAME" property="createName" />
+    </resultMap>
+
+</mapper>

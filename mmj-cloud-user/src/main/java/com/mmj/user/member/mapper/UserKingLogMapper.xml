@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.member.mapper.UserKingLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.member.model.UserKingLog">
+        <id column="LOG_ID" property="logId"/>
+        <result column="KING_NUM" property="kingNum"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="KING_CONTEXT" property="kingContext"/>
+        <result column="UPDATE_NUM" property="updateNum"/>
+        <result column="SHARE_TYPE" property="shareType"/>
+        <result column="GOOD_ID" property="goodId"/>
+        <result column="ORDER_NO" property="orderNo"/>
+        <result column="STATUS" property="status"/>
+        <result column="SURPLUS" property="surplus"/>
+        <result column="SORT" property="sort"/>
+        <result column="CREATE_TIME" property="createTime"/>
+    </resultMap>
+    <update id="updateUserId">
+        UPDATE t_user_king_log SET USER_ID=#{newUserId,jdbcType=BIGINT} WHERE USER_ID=#{oldUserId,jdbcType=BIGINT}
+    </update>
+
+    <select id="getSumKingNum" resultType="java.lang.Double">
+      SELECT IFNULL(ROUND(MAX(KING_NUM)/1000,2),0) FROM t_user_king_log WHERE USER_ID = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="getLogCount" resultType="java.lang.Integer">
+      SELECT
+	  IFNULL(sum(UPDATE_NUM),0)
+      FROM
+          t_user_king_log
+      WHERE
+          USER_ID = #{userId,jdbcType=BIGINT}
+      AND SHARE_TYPE in(${shareType})
+      AND date_format(#{today,jdbcType=VARCHAR},'%Y-%m-%d') = date_format(CREATE_TIME,'%Y-%m-%d')
+    </select>
+
+    <select id="getCountByTypeAndTime" resultType="int">
+      SELECT
+          count(*)
+      FROM
+          t_user_king_log
+      WHERE
+          USER_ID = #{userId,jdbcType=BIGINT}
+      AND SHARE_TYPE = #{shareType,jdbcType=VARCHAR}
+      AND date_format(#{today,jdbcType=VARCHAR}, '%Y-%m-%d') = date_format(CREATE_TIME, '%Y-%m-%d');
+  </select>
+</mapper>

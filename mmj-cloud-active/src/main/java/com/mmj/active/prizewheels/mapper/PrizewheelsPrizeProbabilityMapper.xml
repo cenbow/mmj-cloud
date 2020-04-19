@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.prizewheels.mapper.PrizewheelsPrizeProbabilityMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.prizewheels.model.PrizewheelsPrizeProbability">
+        <result column="RANGE_ID" property="rangeId" />
+        <result column="BALANCE_RANGE_LEFT" property="balanceRangeLeft" />
+        <result column="BALANCE_RANGE_RIGHT" property="balanceRangeRight" />
+        <result column="PRIZE_ID" property="prizeId" />
+        <result column="PROBABILITY" property="probability" />
+        <result column="RANDOM_REDPACKET_RANGE" property="randomRedpacketRange" />
+        <result column="SORT" property="sort" />
+    </resultMap>
+
+</mapper>

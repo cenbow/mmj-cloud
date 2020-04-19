@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.pay.mapper.WxpayTransfersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.pay.model.WxpayTransfers">
+        <id column="ID" property="id" />
+        <result column="MCH_APPID" property="mchAppid" />
+        <result column="MCHID" property="mchid" />
+        <result column="PARTNER_TRADE_NO" property="partnerTradeNo" />
+        <result column="OPENID" property="openid" />
+        <result column="AMOUNT" property="amount" />
+        <result column="DESC" property="desc" />
+        <result column="SPBILL_CREATE_IP" property="spbillCreateIp" />
+        <result column="STATE" property="state" />
+        <result column="ERROR_DESC" property="errorDesc" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+</mapper>

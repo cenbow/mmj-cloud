@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.userFocus.mapper.UserFocusMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.userFocus.model.UserFocus">
+        <id column="FOCUS_ID" property="focusId" />
+        <result column="USER_ID" property="userId" />
+        <result column="OPEN_ID" property="openId" />
+        <result column="APP_ID" property="appId" />
+        <result column="STATUS" property="status" />
+        <result column="REWARD" property="reward" />
+        <result column="MODULE" property="module" />
+        <result column="TYPE" property="type" />
+        <result column="FORM" property="form" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+        <result column="PASSING_DATA" property="passingData" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        FOCUS_ID,USER_ID,OPEN_ID,APP_ID,STATUS,REWARD,MODULE,TYPE,FORM,CREATE_TIME,MODIFY_TIME,PASSING_DATA
+    </sql>
+
+    <sql id="Sync_Column_List">
+       USER_ID,OPEN_ID,MODULE,STATUS
+    </sql>
+
+    <select id="queryList" resultMap="BaseResultMap">
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_0 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+        UNION ALL
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_1 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+        UNION ALL
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_2 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+        UNION ALL
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_3 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+        UNION ALL
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_4 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+        UNION ALL
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_5 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+        UNION ALL
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_6 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+        UNION ALL
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_7 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+        UNION ALL
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_8 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+        UNION ALL
+        SELECT <include refid="Sync_Column_List" /> FROM t_user_focus_9 WHERE USER_ID IS NOT NULL AND MODULE = #{module} AND TYPE = #{type} AND FORM = 1 AND MODIFY_TIME >= STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 00:00:00'),'%y-%m-%d %k:%i:%s') AND MODIFY_TIME <![CDATA[<=]]> STR_TO_DATE(CONCAT(DATE_FORMAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), '%y-%m-%d'), ' 23:59:59'),'%y-%m-%d %k:%i:%s')
+    </select>
+
+</mapper>

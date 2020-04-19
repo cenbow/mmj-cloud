@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.aftersale.mapper.AfterSalesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.aftersale.model.AfterSales">
+        <id column="AFTER_ID" property="afterId" />
+        <result column="AFTER_SALE_NO" property="afterSaleNo" />
+        <result column="AFTER_STATUS" property="afterStatus" />
+        <result column="AFTER_TYPE" property="afterType" />
+        <result column="ORDER_NO" property="orderNo" />
+        <result column="ORDER_TIME" property="orderTime" />
+        <result column="CHECK_NAME" property="checkName" />
+        <result column="CHECK_PHONE" property="checkPhone" />
+        <result column="JST_CANCEL" property="jstCancel" />
+        <result column="AFTER_DESC" property="afterDesc" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="RETURN_FLAG" property="returnFlag" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      AFTER_ID,AFTER_SALE_NO,AFTER_STATUS,AFTER_TYPE,ORDER_NO,ORDER_TIME,CHECK_NAME,CHECK_PHONE,JST_CANCEL,
+      AFTER_DESC,DEL_FLAG,CREATER_ID,CREATER_TIME,MODIFY_ID,CREATER_TIME,MODIFY_ID,MODIFY_TIME,RETURN_FLAG
+    </sql>
+
+    <select id="queryAfterSalesList" parameterType="com.mmj.aftersale.model.vo.AfterSalesListVo" resultMap="BaseResultMap">
+      select
+        <include refid="Base_Column_List" />
+        from v_after_sales_join
+        <where>
+            DEL_FLAG = 1
+            <if test="afterStatus != null">
+                and AFTER_STATUS = #{afterStatus}
+            </if>
+            <if test="orderNo != null and orderNo != '' ">
+                and ORDER_NO = #{orderNo}
+            </if>
+            <if test="consigneeTel != null">
+                and CHECK_PHONE = #{consigneeTel}
+            </if>
+            <if test="consigneeName != null">
+                and CHECK_NAME = #{consigneeName}
+            </if>
+            <if test="beginOrderDate != null and beginOrderDate != '' ">
+                and ORDER_TIME >= DATE_FORMAT(#{beginOrderDate},'%Y-%m-%d 00:00:00')
+            </if>
+            <if test="endOrderDate != null and endOrderDate != '' ">
+                and ORDER_TIME &lt;=  DATE_FORMAT(#{endOrderDate},'%Y-%m-%d 23:59:59')
+            </if>
+            <if test="beginAfSaleDate != null and beginAfSaleDate != '' ">
+                and CREATER_TIME >= DATE_FORMAT(#{beginAfSaleDate},'%Y-%m-%d 00:00:00')
+            </if>
+            <if test="endAfSaleDate != null and endAfSaleDate != '' ">
+                and CREATER_TIME &lt;= DATE_FORMAT(#{endAfSaleDate},'%Y-%m-%d 23:59:59')
+            </if>
+            <if test="createrId != null ">
+                and CREATER_ID = #{createrId}
+            </if>
+        </where>
+        order by CREATER_TIME desc
+    </select>
+
+</mapper>

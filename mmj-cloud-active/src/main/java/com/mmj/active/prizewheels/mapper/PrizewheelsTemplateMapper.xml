@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.prizewheels.mapper.PrizewheelsTemplateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.prizewheels.model.PrizewheelsTemplate">
+        <id column="ID" property="id" />
+        <result column="RULE_DESC" property="ruleDesc" />
+        <result column="NEW_USER_REDPACKET" property="newUserRedpacket" />
+        <result column="NEW_USER_GET_COINS_AMOUNT" property="newUserGetCoinsAmount" />
+        <result column="BAG_OF_COINS_NUM" property="bagOfCoinsNum" />
+        <result column="BOX_OF_COINS_NUM" property="boxOfCoinsNum" />
+        <result column="INCREMENT_COINS_MINUTES" property="incrementCoinsMinutes" />
+        <result column="INCREMENT_COINS_AMOUNT" property="incrementCoinsAmount" />
+        <result column="EXCEED_MINUTES" property="exceedMinutes" />
+        <result column="SIGN_GET_COINS_AMOUNT" property="signGetCoinsAmount" />
+        <result column="CONSUMING_COINS_AMOUNT" property="consumingCoinsAmount" />
+        <result column="INVITE_FRIEND_GET_COINS_AMOUNT" property="inviteFriendGetCoinsAmount" />
+        <result column="INVITE_FRIEND_COUNT_FOR_GET_REDPACKET" property="inviteFriendCountForGetRedpacket" />
+        <result column="SHARE_GOODS_GET_COINS_AMOUNT" property="shareGoodsGetCoinsAmount" />
+        <result column="GET_COINS_SHARE_GOODS_MAX_COUNT" property="getCoinsShareGoodsMaxCount" />
+        <result column="SHARE_GOODS_COUNT_FOR_GET_REDPACKET" property="shareGoodsCountForGetRedpacket" />
+        <result column="WITHDRAW_THRESHOLD_MIN_MONEY" property="withdrawThresholdMinMoney" />
+        <result column="WITHDRAW_THRESHOLD_MAX_MONEY" property="withdrawThresholdMaxMoney" />
+        <result column="RANDOM_REDPACKET_RANGE" property="randomRedpacketRange" />
+        <result column="OFFICIAL_ACCOUNT_REPLY_GET_COINS" property="officialAccountReplyGetCoins" />
+        <result column="REPLY_KEYWORD" property="replyKeyword" />
+        <result column="OFFICIAL_ACCOUNT_NAME" property="officialAccountName" />
+        <result column="OFFICIAL_ACCOUNT_APPID" property="officialAccountAppid" />
+        <result column="IS_OPEN" property="isOpen" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+</mapper>

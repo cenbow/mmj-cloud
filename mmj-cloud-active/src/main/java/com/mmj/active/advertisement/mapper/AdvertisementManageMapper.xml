@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.advertisement.mapper.AdvertisementManageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.advertisement.model.AdvertisementManage">
+        <id column="ID" property="id" />
+        <result column="PAGE_NAME" property="pageName" />
+        <result column="PAGE_TYPE" property="pageType" />
+        <result column="URL" property="url" />
+        <result column="IMG" property="img" />
+        <result column="IS_NEW_USER" property="isNewUser" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+    <delete id="deleteAll">
+      delete from t_advertisement_manage
+    </delete>
+
+</mapper>

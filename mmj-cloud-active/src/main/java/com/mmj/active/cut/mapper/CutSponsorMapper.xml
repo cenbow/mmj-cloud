@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.cut.mapper.CutSponsorMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.cut.model.CutSponsor">
+        <id column="SPONSOR_ID" property="sponsorId" />
+        <result column="USER_ID" property="userId" />
+        <result column="CUT_NO" property="cutNo" />
+        <result column="CUT_ID" property="cutId" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="GOOD_SPU" property="goodSpu" />
+        <result column="GOOD_NAME" property="goodName" />
+        <result column="GOOD_IMAGE" property="goodImage" />
+        <result column="SALE_ID" property="saleId" />
+        <result column="GOOD_SKU" property="goodSku" />
+        <result column="GOOD_AMOUNT" property="goodAmount" />
+        <result column="MODEL_NAME" property="modelName" />
+        <result column="BASE_PRICE" property="basePrice" />
+        <result column="CUT_FLAG" property="cutFlag" />
+        <result column="NEW_USER" property="newUser" />
+        <result column="COUNTRY" property="country" />
+        <result column="PROVINCE" property="province" />
+        <result column="CITY" property="city" />
+        <result column="AREA" property="area" />
+        <result column="CONSUMER_ADDR" property="consumerAddr" />
+        <result column="CONSUMER_NAME" property="consumerName" />
+        <result column="CONSUMER_MOBILE" property="consumerMobile" />
+        <result column="START_TIME" property="startTime" />
+        <result column="EXPIRT_TIME" property="expirtTime" />
+        <result column="ORDER_NO" property="orderNo" />
+        <result column="ORDER_STATUS" property="orderStatus" />
+        <result column="SOURCE" property="source"/>
+        <result column="CHANNEL" property="channel"/>
+        <result column="APP_ID" property="appId"/>
+        <result column="OPEN_ID" property="openId"/>
+    </resultMap>
+
+</mapper>

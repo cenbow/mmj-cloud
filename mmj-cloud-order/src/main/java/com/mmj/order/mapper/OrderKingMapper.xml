@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.order.mapper.OrderKingMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.order.model.OrderKing">
+        <id column="ID" property="id" />
+        <result column="ORDER_NO" property="orderNo" />
+        <result column="USER_ID" property="userId" />
+        <result column="NUM" property="num" />
+        <result column="STATUS" property="status" />
+        <result column="TYPE" property="type" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+      ID, ORDER_NO, USER_ID, NUM, STATUS,TYPE ,CREATE_TIME, UPDATE_TIME
+    </sql>
+
+    <select id="getGiveBy" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_order_king WHERE USER_ID = #{userId,jdbcType=BIGINT}
+        AND TYPE = 1
+        order by ID DESC LIMIT 1
+    </select>
+</mapper>

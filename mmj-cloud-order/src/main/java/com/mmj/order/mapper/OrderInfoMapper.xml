@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.order.mapper.OrderInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.order.model.OrderInfo">
+        <id column="ORDER_ID" property="orderId"/>
+        <result column="ORDER_NO" property="orderNo"/>
+        <result column="ORDER_TYPE" property="orderType"/>
+        <result column="BUSINESS_ID" property="businessId"/>
+        <result column="ORDER_STATUS" property="orderStatus"/>
+        <result column="ORDER_AMOUNT" property="orderAmount"/>
+        <result column="GOOD_AMOUNT" property="goodAmount"/>
+        <result column="DISCOUNT_AMOUNT" property="discountAmount"/>
+        <result column="COUPON_AMOUNT" property="couponAmount"/>
+        <result column="EXPRESS_AMOUNT" property="expressAmount"/>
+        <result column="EXPIRT_TIME" property="expirtTime"/>
+        <result column="ORDER_SOURCE" property="orderSource"/>
+        <result column="ORDER_CHANNEL" property="orderChannel"/>
+        <result column="APP_ID" property="appId"/>
+        <result column="OPEN_ID" property="openId"/>
+        <result column="CONSUMER_DESC" property="consumerDesc"/>
+        <result column="GOLD_PRICE" property="goldPrice"/>
+        <result column="MEMBER_ORDER" property="memberOrder"/>
+        <result column="HAS_AFTER_SALE" property="hasAfterSale"/>
+        <result column="AFTER_SALE_NUM" property="afterSaleNum"/>
+        <result column="GOLD_NUM" property="goldNum"/>
+        <result column="DEL_FLAG" property="delFlag"/>
+        <result column="PASSING_DATA" property="passingData"/>
+        <result column="CREATER_ID" property="createrId"/>
+        <result column="CREATER_TIME" property="createrTime"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        ORDER_ID,ORDER_NO,ORDER_TYPE,BUSINESS_ID,BUSINESS_ID,ORDER_STATUS,ORDER_AMOUNT,GOOD_AMOUNT,DISCOUNT_AMOUNT,COUPON_AMOUNT,
+        EXPRESS_AMOUNT,EXPIRT_TIME,ORDER_SOURCE,CONSUMER_DESC,DEL_FLAG,PASSING_DATA,CREATER_ID,CREATER_TIME,MODIFY_TIME,GOLD_PRICE,MEMBER_ORDER,HAS_AFTER_SALE,GOLD_NUM
+
+    </sql>
+
+
+    <!-- 查询历史消费金额 -->
+    <select id="getConsumeMoney" resultType="java.lang.Double" parameterType="list">
+        SELECT
+        TRUNCATE(IFNULL(SUM(order_amount),0)/100,2) AS amount
+        FROM
+        t_order_info
+        WHERE
+        ORDER_TYPE != 2
+        AND ORDER_STATUS IN (6, 7, 8)
+        AND HAS_AFTER_SALE = 0
+        AND CREATER_ID IN
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </select>
+
+    <!-- 查询历史消费金额Two -->
+    <select id="getConsumeMoneyTwo" resultType="java.lang.Double">
+        SELECT
+        TRUNCATE(IFNULL(SUM(order_amount),0)/100,2) AS amount
+        FROM
+        t_order_info
+        WHERE
+        ORDER_TYPE != 2
+        AND ORDER_STATUS IN (6, 7, 8)
+        AND HAS_AFTER_SALE = 0
+        AND CREATER_ID IN
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+        AND ORDER_NO <![CDATA[ <> ]]> #{orderNo}
+    </select>
+
+    <select id="getLotteryWaitPay" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from v_order_info
+        WHERE BUSINESS_ID = #{businessId,jdbcType=INTEGER} and order_status=1
+    </select>
+
+
+    <sql id="STATIC_COLUMN">
+        orderCount,orderAmount,userId
+    </sql>
+
+    <select id="getUsersOrdersDataForChannel" resultType="com.mmj.common.model.UserOrderStatistics">
+        SELECT
+        COUNT(t.ORDER_ID) AS orderCount,
+        IFNULL(SUM(t.ORDER_AMOUNT), 0) AS orderAmount,
+        t.CREATER_ID AS userId
+        FROM t_order_info t WHERE t.CREATER_ID in 
+        <foreach collection="set" item="userId" open="(" separator="," close=")">
+        	#{userId}
+        </foreach>
+        AND t.ORDER_STATUS IN(2,6,7,8)
+        <if test="startTime!=null and startTime!='null'">
+            AND t.CREATER_TIME <![CDATA[>=]]> #{startTime,jdbcType=VARCHAR}
+        </if>
+        <if test="endTime!=null and endTime!=''">
+            AND t.CREATER_TIME <![CDATA[<=]]>#{endTime,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+</mapper>

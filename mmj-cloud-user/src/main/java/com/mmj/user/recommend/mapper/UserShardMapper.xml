@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.recommend.mapper.UserShardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.recommend.model.UserShard">
+        <id column="SHARD_ID" property="shardId" />
+        <result column="SHARD_FROM" property="shardFrom" />
+        <result column="FROM_HEAD_IMG" property="fromHeadImg" />
+        <result column="FROM_NICL_NAME" property="fromNiclName" />
+        <result column="FROM_SHARD_OPENID" property="fromShardOpenid" />
+        <result column="SHARD_TO" property="shardTo" />
+        <result column="TO_HEAD_IMG" property="toHeadImg" />
+        <result column="TO_NICK_NAME" property="toNickName" />
+        <result column="TO_SHARD_OPENID" property="toShardOpenid" />
+        <result column="SHARD_TYPE" property="shardType" />
+        <result column="SHARD_SOURCE" property="shardSource" />
+        <result column="ORDER_NO" property="orderNo" />
+        <result column="BUSINESS_VALUE" property="businessValue" />
+        <result column="ORDER_STATUS" property="orderStatus" />
+        <result column="ORDER_AMOUNT" property="orderAmount" />
+        <result column="ORDER_CREATE_TIME" property="orderCreateTime" />
+        <result column="ORDER_END_TIME" property="orderEndTime" />
+        <result column="USER_FLAG" property="userFlag" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        SHARD_ID, SHARD_FROM, FROM_HEAD_IMG, FROM_NICL_NAME, FROM_SHARD_OPENID, SHARD_TO, TO_HEAD_IMG, TO_NICK_NAME, TO_SHARD_OPENID, SHARD_TYPE,
+        SHARD_SOURCE, ORDER_NO, BUSINESS_VALUE, ORDER_STATUS, ORDER_AMOUNT, ORDER_CREATE_TIME, ORDER_END_TIME, USER_FLAG, CREATER_TIME
+    </sql>
+
+    <select id="selectUserShard" resultMap="BaseResultMap">
+        SELECT us.* from v_user_shard us
+        LEFT JOIN
+        v_redpackage_user ru
+        on us.SHARD_ID = ru.BUSINESS_ID
+        WHERE us.SHARD_TYPE = 'MEMBER'
+        and us.ORDER_STATUS = 3
+        and DATE_SUB(now(), INTERVAL 14400 MINUTE) > us.ORDER_END_TIME
+        and ru.PACKAGE_SOURCE = 'MEMBER '
+        and ru.PACKAGE_STATUS = 0
+    </select>
+
+    <select id="selectByShardTo" resultMap="BaseResultMap" parameterType="com.mmj.user.recommend.model.UserShard">
+      select
+      <include refid="Base_Column_List"/>
+        from t_user_shard_0 t0
+      <where>
+          <if test="shardTo != null" >
+              t0.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+          </if>
+          <if test="shardType != null">
+              and t0.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+          </if>
+          <if test="orderNo != null">
+              and t0.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+          </if>
+          <if test="orderStatus != null">
+              and t0.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+          </if>
+      </where>
+        UNION ALL
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_shard_1 t1
+        <where>
+            <if test="shardTo != null" >
+                t1.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+            </if>
+            <if test="shardType != null">
+                and t1.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and t1.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and t1.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+        UNION ALL
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_shard_2 t2
+        <where>
+            <if test="shardTo != null" >
+                t2.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+            </if>
+            <if test="shardType != null">
+                and t2.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and t2.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and t2.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+        UNION ALL
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_shard_3 t3
+        <where>
+            <if test="shardTo != null" >
+                t3.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+            </if>
+            <if test="shardType != null">
+                and t3.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and t3.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and t3.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+        UNION ALL
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_shard_4 t4
+        <where>
+            <if test="shardTo != null" >
+                t4.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+            </if>
+            <if test="shardType != null">
+                and t4.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and t4.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and t4.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+        UNION ALL
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_shard_5 t5
+        <where>
+            <if test="shardTo != null" >
+                t5.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+            </if>
+            <if test="shardType != null">
+                and t5.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and t5.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and t5.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+        UNION ALL
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_shard_6 t6
+        <where>
+            <if test="shardTo != null" >
+                t6.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+            </if>
+            <if test="shardType != null">
+                and t6.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and t6.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and t6.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+        UNION ALL
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_shard_7 t7
+        <where>
+            <if test="shardTo != null" >
+                t7.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+            </if>
+            <if test="shardType != null">
+                and t7.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and t7.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and t7.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+        UNION ALL
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_shard_8 t8
+        <where>
+            <if test="shardTo != null" >
+                t8.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+            </if>
+            <if test="shardType != null">
+                and t8.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and t8.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and t8.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+        UNION ALL
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_shard_9 t9
+        <where>
+            <if test="shardTo != null" >
+                t9.SHARD_TO = #{shardTo,jdbcType=BIGINT}
+            </if>
+            <if test="shardType != null">
+                and t9.SHARD_TYPE = #{shardType,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and t9.ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and t9.ORDER_STATUS = #{orderStatus,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateUserId">
+     UPDATE t_user_shard SET SHARD_FROM=#{newUserId,jdbcType=BIGINT} WHERE SHARD_FROM=#{oldUserId,jdbcType=BIGINT}
+   </update>
+
+</mapper>

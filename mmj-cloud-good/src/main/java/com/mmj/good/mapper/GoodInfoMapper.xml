@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.mapper.GoodInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.model.GoodInfo">
+        <id column="GOOD_ID" property="goodId" />
+        <result column="GOOD_NAME" property="goodName" />
+        <result column="SELLING_POINT" property="sellingPoint" />
+        <result column="SHORT_NAME" property="shortName" />
+        <result column="GOOD_SPU" property="goodSpu" />
+        <result column="GOOD_CLASS" property="goodClass" />
+        <result column="GOOD_STATUS" property="goodStatus" />
+        <result column="UP_TIME" property="upTime" />
+        <result column="SALE_DAYS" property="saleDays" />
+        <result column="VIRTUAL_FLAG" property="virtualFlag" />
+        <result column="MEMBER_FLAG" property="memberFlag" />
+        <result column="COMBINA_FLAG" property="combinaFlag" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="AUTO_SHOW" property="autoShow" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      GOOD_ID,GOOD_NAME,SELLING_POINT,SHORT_NAME,GOOD_SPU,GOOD_CLASS,GOOD_STATUS,UP_TIME,SALE_DAYS,VIRTUAL_FLAG,MEMBER_FLAG,COMBINA_FLAG,DEL_FLAG,AUTO_SHOW,CREATER_ID,CREATER_TIME,MODIFY_ID,MODIFY_TIME
+    </sql>
+
+    <sql id="Order_Column_List">
+      GOOD_ID goodId,GOOD_NAME goodName,SELLING_POINT sellingPoint,SHORT_NAME shortName,GOOD_SPU goodSpu,GOOD_CLASS goodClass,GOOD_STATUS goodStatus,
+      UP_TIME upTime,SALE_DAYS saleDays,VIRTUAL_FLAG virtualFlag,MEMBER_FLAG memberFlag,COMBINA_FLAG combinaFlag,DEL_FLAG delFlag,AUTO_SHOW autoShow,
+      CREATER_ID createrId,CREATER_TIME createrTime,MODIFY_ID modifyId,MODIFY_TIME modifyTime
+    </sql>
+
+    <resultMap id="queryBaseMap" type="com.mmj.good.model.GoodInfoBaseQueryEx" extends="BaseResultMap">
+        <association property="image" select="queryGoodFile" column="{goodId=GOOD_ID}" />
+        <association property="goodSaleExes" select="queryGoodSale" column="{goodId=GOOD_ID}" />
+    </resultMap>
+
+    <resultMap id="queryOrderBy" type="com.mmj.good.model.GoodInfoEx" extends="BaseResultMap">
+        <result column="FILE_URL" property="image" />
+        <result column="BASE_PRICE" property="basePrice" />
+        <result column="SHOP_PRICE" property="shopPrice" />
+        <result column="TUAN_PRICE" property="tuanPrice" />
+        <result column="MEMBER_PRICE" property="memberPrice" />
+        <result column="SALE_NUM" property="saleNum" />
+        <result column="WAREHOUSE_NUM" property="warehouseNum" />
+        <result column="WAREHOUSE_NAME" property="wareHouseShow" />
+        <result column="CLASS_CODE" property="classCode" />
+        <result column="SHOW_FLAG" property="showFlag" />
+        <result column="GOOD_NUM" property="goodNum" />
+    </resultMap>
+
+    <select id="queryBaseList" parameterType="com.mmj.good.model.GoodInfoBaseQueryEx" resultMap="queryBaseMap">
+        select
+          <include refid="Base_Column_List" />
+        from t_good_info
+        <where>
+            <if test="goodSpu != null">
+                GOOD_SPU like CONCAT("%",#{goodSpu},"%")
+            </if>
+            <if test="goodName != null">
+                and GOOD_NAME like CONCAT("%",#{goodName},"%")
+            </if>
+            <if test="goodStatus != null">
+                and GOOD_STATUS = #{goodStatus}
+            </if>
+            <if test="virtualFlag != null">
+                and VIRTUAL_FLAG = #{virtualFlag}
+            </if>
+            <if test="memberFlag != null">
+                and MEMBER_FLAG = #{memberFlag}
+            </if>
+            <if test="combinaFlag != null">
+                and COMBINA_FLAG = #{combinaFlag}
+            </if>
+            <if test="delFlag != null">
+                and DEL_FLAG = #{delFlag}
+            </if>
+            <if test="autoShow != null">
+                and AUTO_SHOW = #{autoShow}
+            </if>
+            <if test="goodClass != null">
+                and GOOD_CLASS = #{goodClass}
+            </if>
+            <if test="goodClassLike != null">
+                and GOOD_CLASS like CONCAT(#{goodClassLike},"%")
+            </if>
+            <if test="classCodes != null and classCodes.size() > 0">
+                and GOOD_CLASS in
+                <foreach collection="classCodes"  item="code" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+            </if>
+            <if test="goodIds != null and goodIds.size() > 0">
+                and GOOD_ID in
+                <foreach collection="goodIds"  item="goodId" open="(" separator="," close=")">
+                    #{goodId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--boss后台分页查询商品列表映射-->
+    <resultMap id="queryMap" type="com.mmj.good.model.GoodInfoBaseQueryEx" extends="BaseResultMap">
+        <association property="goodNum" select="queryGoodNum" column="{goodId=GOOD_ID}" />
+        <association property="saleNum" select="querySaleNum" column="{goodId=GOOD_ID}" />
+        <association property="goodWarehouses" select="queryGoodWarehouses" column="{goodId=GOOD_ID}" />
+        <association property="className" select="queryClassName" column="{goodClass=GOOD_CLASS}" />
+        <association property="label" select="queryLabel" column="{goodId=GOOD_ID}" />
+        <association property="image" select="queryGoodFile" column="{goodId=GOOD_ID}" />
+        <association property="goodCombinations" select="queryGoodCombination" column="{goodId=GOOD_ID}" />
+    </resultMap>
+
+    <!-- 商品仓库通用查询映射结果 -->
+    <resultMap id="BaseResultMapWareHouse" type="com.mmj.good.model.GoodWarehouse">
+        <id column="WAREHOUSE_ID" property="warehouseId" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="SALE_ID" property="saleId" />
+        <result column="GOOD_SKU" property="goodSku" />
+        <result column="WAREHOUSE_NAME" property="warehouseName" />
+        <result column="WAREHOUSE_NUM" property="warehouseNum" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+    <!--boss后台分页查询商品列表-->
+    <select id="queryList" resultMap="queryMap">
+        select
+          <include refid="Base_Column_List" />
+        from t_good_info
+        <where>
+            <if test="goodSpu != null">
+                GOOD_SPU like CONCAT("%",#{goodSpu},"%")
+            </if>
+            <if test="goodName != null">
+                and GOOD_NAME like CONCAT("%",#{goodName},"%")
+            </if>
+            <if test="goodClass != null">
+                and GOOD_CLASS = #{goodClass}
+            </if>
+            <if test="goodStatus != null">
+                and GOOD_STATUS = #{goodStatus}
+            </if>
+            <if test="virtualFlag != null">
+                and VIRTUAL_FLAG = #{virtualFlag}
+            </if>
+            <if test="memberFlag != null">
+                and MEMBER_FLAG = #{memberFlag}
+            </if>
+            <if test="combinaFlag != null">
+                and COMBINA_FLAG = #{combinaFlag}
+            </if>
+            <if test="delFlag != null">
+                and DEL_FLAG = #{delFlag}
+            </if>
+            <if test="autoShow != null">
+                and AUTO_SHOW = #{autoShow}
+            </if>
+            <if test="goodClassLike != null">
+                and GOOD_CLASS like CONCAT(#{goodClassLike},"%")
+            </if>
+            <if test="classCodes != null and classCodes.size() > 0">
+                and GOOD_CLASS in
+                <foreach collection="classCodes"  item="code" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+            </if>
+            <if test="goodIds != null and goodIds.size() > 0">
+                and GOOD_ID in
+                <foreach collection="goodIds"  item="goodId" open="(" separator="," close=")">
+                    #{goodId}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY MODIFY_TIME DESC
+    </select>
+
+    <!--根据商品id查询商品库存(所有的sku库存之和)-->
+    <select id="queryGoodNum" resultType="int">
+        select sum(GOOD_NUM) from t_good_sale where GOOD_ID = #{goodId}
+    </select>
+
+    <!--查询商品销量-->
+    <select id="querySaleNum" resultType="int">
+        select sum(SALE_NUM) from t_good_sale where GOOD_ID = #{goodId}
+    </select>
+
+    <!--商品仓库查询-->
+    <select id="queryGoodWarehouses" resultMap="BaseResultMapWareHouse">
+        select GOOD_SKU, WAREHOUSE_NAME from t_good_warehouse where GOOD_ID = #{goodId}
+    </select>
+
+    <!--根据分类编码查询分类名称-->
+    <select id="queryClassName" resultType="java.lang.String">
+        select CLASS_NAME as className from t_good_class where CLASS_CODE = #{goodClass}
+    </select>
+
+    <!--查询商品标签-->
+    <select id="queryLabel" resultType="java.lang.String">
+        select GROUP_CONCAT(l.LABEL_NAME) warehouseNameShow from t_good_label_mapper lm left join t_good_label l on lm.LABEL_ID = l.LABEL_ID and lm.GOOD_ID = #{goodId}
+    </select>
+
+    <!--根据商品id查询商品图片-->
+    <select id="queryGoodFile" resultType="java.lang.String">
+        select FILE_URL from t_good_file where GOOD_ID = #{goodId} and FILE_TYPE = 'IMAGE' and TITLE_FLAG = 1 and ACTIVE_TYPE = 16 LIMIT 1
+    </select>
+
+    <!--根据商品id查询组合商品信息-->
+    <select id="queryGoodCombination" resultType="com.mmj.good.model.GoodCombinationEx">
+        select c.GOOD_SKU goodSku,c.SUB_GOOD_SKU subGoodSku,c.SUB_GOOD_NUM subGoodNum,c.PACKAGE_NUM packageNum,w.WAREHOUSE_NUM warehouseNum from t_good_combination c left join t_good_warehouse w on c.SUB_SALE_ID = w.SALE_ID where c.GOOD_ID = #{goodId}
+    </select>
+
+    <!--根据商品id查询销售信息-->
+    <select id="queryGoodSale" resultType="com.mmj.good.model.GoodSaleEx">
+        SELECT
+            gs.GOOD_ID goodId,MAX(gs.BASE_PRICE) basePrice,MIN(gs.SHOP_PRICE) shopPrice,MIN(gs.TUAN_PRICE) tuanPrice,MIN(gs.MEMBER_PRICE) memberPrice,SUM(gs.SALE_NUM) saleNum, SUM(gs.GOOD_NUM) goodNum,
+            gw.WAREHOUSE_NUM warehouseNum, gw.WAREHOUSE_NAME wareHouseShow
+        FROM t_good_sale gs
+        LEFT JOIN (SELECT GOOD_ID,SUM(WAREHOUSE_NUM) WAREHOUSE_NUM,GROUP_CONCAT(WAREHOUSE_NAME) WAREHOUSE_NAME FROM t_good_warehouse GROUP BY GOOD_ID) gw ON gs.GOOD_ID = gw.GOOD_ID
+        WHERE gs.GOOD_ID = #{goodId}
+        GROUP BY gs.GOOD_ID
+    </select>
+
+    <select id="select" parameterType="com.mmj.good.model.GoodInfo" resultMap="BaseResultMap">
+        select
+          <include refid="Base_Column_List" />
+        from t_good_info
+        <where>
+            <if test="goodId != null">
+                GOOD_ID = #{goodId}
+            </if>
+            <if test="goodName != null">
+                and GOOD_NAME = #{goodName}
+            </if>
+            <if test="sellingPoint != null">
+                and SELLING_POINT = #{sellingPoint}
+            </if>
+            <if test="shortName != null">
+                and SHORT_NAME = #{shortName}
+            </if>
+            <if test="goodSpu != null">
+                and GOOD_SPU = #{goodSpu}
+            </if>
+            <if test="goodClass != null">
+                and GOOD_CLASS = #{goodClass}
+            </if>
+            <if test="goodStatus != null">
+                and GOOD_STATUS = #{goodStatus}
+            </if>
+            <if test="virtualFlag != null">
+                and VIRTUAL_FLAG = #{virtualFlag}
+            </if>
+            <if test="memberFlag != null">
+                and MEMBER_FLAG = #{memberFlag}
+            </if>
+            <if test="combinaFlag != null">
+                and COMBINA_FLAG = #{combinaFlag}
+            </if>
+            <if test="delFlag != null">
+                and DEL_FLAG = #{delFlag}
+            </if>
+            <if test="autoShow != null">
+                and AUTO_SHOW = #{autoShow}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryOrderList" parameterType="com.mmj.good.model.GoodInfoEx" resultMap="queryOrderBy">
+        SELECT
+          GOOD_ID, GOOD_NAME, SELLING_POINT, SHORT_NAME, GOOD_SPU, GOOD_CLASS, GOOD_STATUS, VIRTUAL_FLAG, MEMBER_FLAG, COMBINA_FLAG, DEL_FLAG,
+          AUTO_SHOW, CREATER_TIME, MODIFY_TIME, FILE_URL, BASE_PRICE, SHOP_PRICE, TUAN_PRICE, MEMBER_PRICE, GOOD_NUM, SALE_NUM, WAREHOUSE_NUM, WAREHOUSE_NAME
+        FROM
+            (SELECT
+                gi.GOOD_ID, gi.GOOD_NAME, gi.SELLING_POINT, gi.SHORT_NAME, gi.GOOD_SPU, gi.GOOD_CLASS, gi.GOOD_STATUS, gi.VIRTUAL_FLAG, gi.MEMBER_FLAG, gi.COMBINA_FLAG, gi.DEL_FLAG, gi.AUTO_SHOW, gi.CREATER_TIME, gi.MODIFY_TIME,
+                gf.FILE_URL,
+                gs.BASE_PRICE, gs.SHOP_PRICE, gs.TUAN_PRICE, gs.MEMBER_PRICE, gs.SALE_NUM, gs.GOOD_NUM,
+                gw.WAREHOUSE_NUM, gw.WAREHOUSE_NAME,
+                gc.CLASS_ORDER1, gc.CLASS_ORDER2, gc.CLASS_ORDER3
+            FROM
+                (SELECT
+                class_code,show_flag,
+                CASE WHEN LENGTH(class_code) = 4 THEN class_order
+                ELSE (SELECT class_order FROM t_good_class WHERE class_code = LEFT(c.CLASS_CODE,4)) END class_order1,
+
+                CASE WHEN LENGTH(class_code) = 4 THEN 0
+                WHEN LENGTH(class_code) = 6 THEN class_order
+                ELSE (SELECT class_order FROM t_good_class WHERE class_code = LEFT(c.CLASS_CODE,4)) END class_order2,
+
+                CASE WHEN LENGTH(class_code) = 4 THEN 0
+                WHEN LENGTH(class_code) = 6 THEN 0
+                ELSE class_order END class_order3
+                FROM t_good_class c) gc
+                LEFT JOIN t_good_info gi ON gc.class_code = gi.good_class
+                LEFT JOIN t_good_file gf ON gi.GOOD_ID = gf.GOOD_ID AND gf.FILE_TYPE = 'IMAGE' AND gf.TITLE_FLAG = 1 AND gf.ACTIVE_TYPE = 16
+                LEFT JOIN (SELECT GOOD_ID,MAX(BASE_PRICE) BASE_PRICE,SUM(GOOD_NUM) GOOD_NUM, MIN(SHOP_PRICE) SHOP_PRICE,MIN(TUAN_PRICE) TUAN_PRICE,MIN(MEMBER_PRICE) MEMBER_PRICE,SUM(SALE_NUM) SALE_NUM FROM t_good_sale GROUP BY GOOD_ID) gs ON gi.GOOD_ID = gs.GOOD_ID
+                LEFT JOIN (SELECT GOOD_ID,SUM(WAREHOUSE_NUM) WAREHOUSE_NUM,GROUP_CONCAT(WAREHOUSE_NAME) WAREHOUSE_NAME FROM t_good_warehouse) gw ON gi.GOOD_ID = gw.GOOD_ID
+            WHERE gi.GOOD_ID IS NOT NULL
+            <if test="goodStatus != null">
+                AND gi.GOOD_STATUS = #{goodStatus}
+            </if>
+            <if test="virtualFlag != null">
+                AND gi.VIRTUAL_FLAG = #{virtualFlag}
+            </if>
+            <if test="memberFlag != null">
+                AND gi.MEMBER_FLAG = #{memberFlag}
+            </if>
+            <if test="combinaFlag != null">
+                AND gi.COMBINA_FLAG = #{combinaFlag}
+            </if>
+            <if test="delFlag != null">
+                AND gi.DEL_FLAG = #{delFlag}
+            </if>
+            <if test="autoShow != null">
+                AND gi.AUTO_SHOW = #{autoShow}
+            </if>
+            <if test="goodClass != null">
+                AND gi.GOOD_CLASS = #{goodClass}
+            </if>
+            <if test="fileServer != null">
+                AND gf.FILE_SERVER = #{fileServer}
+            </if>
+            <if test="showFlag != null">
+                AND gc.SHOW_FLAG = #{showFlag}
+            </if>
+            <if test="classCodeLike != null">
+                AND gi.GOOD_CLASS like CONCAT(#{classCodeLike},"%")
+            </if>
+            <if test="classCodes != null and classCodes.size() > 0">
+                AND gi.GOOD_CLASS in
+                <foreach collection="classCodes"  item="classCode" open="(" separator="," close=")">
+                    #{classCode}
+                </foreach>
+            </if>
+            <if test="noClassCodes != null and noClassCodes.size() > 0">
+                AND gi.GOOD_CLASS not in
+                <foreach collection="noClassCodes"  item="classCode" open="(" separator="," close=")">
+                    #{classCode}
+                </foreach>
+            </if>
+            <if test="goodIds != null and goodIds.size > 0">
+                AND gi.GOOD_ID in
+                <foreach collection="goodIds"  item="goodId" open="(" separator="," close=")">
+                    #{goodId}
+                </foreach>
+            </if>
+            <if test="noGoodIds != null and noGoodIds.size > 0">
+                AND gi.GOOD_ID not in
+                <foreach collection="noGoodIds"  item="goodId" open="(" separator="," close=")">
+                    #{goodId}
+                </foreach>
+            </if>
+            ) gb
+            <if test="orderType != null">
+                order by ${orderType}
+            </if>
+    </select>
+
+    <select id="queryGoodClasses" resultType="java.lang.String">
+        select GOOD_CLASS goodClass from t_good_info where GOOD_ID in
+        <foreach collection="goodIds" item="goodId" open="(" separator="," close=")">
+            #{goodId}
+        </foreach>
+        group by GOOD_CLASS
+    </select>
+
+    <select id="queryTopGood" resultType="java.util.Map">
+        SELECT gi.GOOD_ID goodId, gi.GOOD_NAME goodName, gi.GOOD_SPU goodSpu, gf.FILE_URL goodImage
+        FROM t_good_info gi
+        LEFT JOIN (SELECT GOOD_ID, SUM(SALE_NUM) SALE_NUM FROM t_good_sale GROUP BY GOOD_ID ORDER BY SALE_NUM DESC) gs ON gi.GOOD_ID = gs.GOOD_ID
+        LEFT JOIN (SELECT GOOD_ID, FILE_URL FROM t_good_file WHERE FILE_TYPE = 'IMAGE' AND TITLE_FLAG = 1 AND ACTIVE_TYPE = 16 GROUP BY GOOD_ID ) gf ON gi.GOOD_ID = gf.GOOD_ID
+        WHERE gi.GOOD_STATUS = 1 AND DEL_FLAG = 0
+        ORDER BY gs.SALE_NUM DESC
+        LIMIT 10
+    </select>
+
+    <resultMap id="search" type="com.mmj.good.model.GoodInfoEx" extends="BaseResultMap">
+        <result column="FILE_URL" property="image" />
+        <result column="BASE_PRICE" property="basePrice" />
+        <result column="SHOP_PRICE" property="shopPrice" />
+        <result column="MEMBER_PRICE" property="memberPrice" />
+        <result column="SALE_NUM" property="saleNum" />
+        <result column="CLASS_NAME" property="className" />
+        <result column="LABEL_NAME" property="labelName" />
+    </resultMap>
+
+    <select id="searchGoods" resultMap="search">
+        SELECT gi.*, gs.BASE_PRICE, gs.SHOP_PRICE, gs.MEMBER_PRICE, gs.SALE_NUM, gc.CLASS_NAME, gl.LABEL_NAME, gf.FILE_URL
+        FROM t_good_info gi
+        LEFT JOIN (SELECT GOOD_ID, MAX(BASE_PRICE) BASE_PRICE, MIN(SHOP_PRICE) SHOP_PRICE, MIN(MEMBER_PRICE) MEMBER_PRICE, SUM(SALE_NUM) SALE_NUM FROM t_good_sale GROUP BY GOOD_ID) gs ON gi.GOOD_ID=gs.GOOD_ID
+        LEFT JOIN (SELECT gc.CLASS_CODE, gc.CLASS_NAME FROM t_good_class gc WHERE DEL_FLAG = 0) gc ON gi.GOOD_CLASS=gc.CLASS_CODE
+        LEFT JOIN (SELECT glm.GOOD_ID, GROUP_CONCAT(gl.LABEL_NAME) LABEL_NAME FROM t_good_label_mapper glm LEFT JOIN t_good_label gl ON gl.LABEL_ID=glm.LABEL_ID WHERE LABEL_STATUS = 1 GROUP BY glm.GOOD_ID) gl ON gi.GOOD_ID = gl.GOOD_ID
+        LEFT JOIN (SELECT GOOD_ID, FILE_URL FROM t_good_file WHERE FILE_TYPE = 'IMAGE' AND TITLE_FLAG = 1 AND ACTIVE_TYPE = 16 GROUP BY GOOD_ID ) gf ON gi.GOOD_ID = gf.GOOD_ID
+        WHERE gi.GOOD_STATUS = 1 AND AUTO_SHOW = 1 AND (gi.GOOD_NAME REGEXP #{content} OR gi.SELLING_POINT REGEXP #{content} OR gc.CLASS_NAME REGEXP #{content} OR gl.LABEL_NAME REGEXP #{content})
+        ORDER BY gs.SALE_NUM DESC
+    </select>
+
+    <resultMap id="queryGoodNumMap" type="com.mmj.good.model.GoodNum">
+        <result column="GOOD_ID" property="goodId" />
+        <association property="goodNumTotal" select="queryGoodNumSum" column="{goodId=GOOD_ID}" />
+        <association property="saleNumTotal" select="querySaleNumSum" column="{goodId=GOOD_ID}" />
+        <association property="skuNums" select="querySkuNums" column="{goodId=GOOD_ID}" />
+    </resultMap>
+
+
+    <select id="queryGoodNumTotal" resultMap="queryGoodNumMap">
+        select GOOD_ID from t_good_info where GOOD_ID in
+        <foreach collection="goodIds" item="goodId" open="(" separator="," close=")">
+            #{goodId}
+        </foreach>
+    </select>
+
+    <select id="queryGoodNumSum" resultType="java.lang.Integer">
+        select sum(GOOD_NUM) GOOD_NUM FROM t_good_sale where GOOD_ID = #{goodId}
+    </select>
+
+    <select id="querySaleNumSum" resultType="java.lang.Integer">
+        select sum(SALE_NUM) SALE_NUM FROM t_good_sale where GOOD_ID = #{goodId}
+    </select>
+
+    <select id="querySkuNums" resultType="com.mmj.good.model.SkuNum">
+        select SALE_ID saleId, GOOD_SKU goodSku,GOOD_NUM goodNum,SALE_NUM saleNum FROM t_good_sale where GOOD_ID = #{goodId}
+    </select>
+
+    <select id="loadGoodInfo" resultType="com.mmj.good.model.GoodInfoProperty" parameterType="com.mmj.good.model.GoodInfoBaseQueryEx">
+        SELECT
+        gi.GOOD_ID 'goodId',
+        CASE LENGTH(gi.GOOD_CLASS)
+          WHEN 4 THEN gc1.CLASS_NAME
+          WHEN 6 THEN CONCAT(gc1.CLASS_NAME, '-', gc2.CLASS_NAME)
+          WHEN 8 THEN CONCAT(gc1.CLASS_NAME, '-', gc2.CLASS_NAME, '-', gc3.CLASS_NAME) ELSE NULL END 'goodClass',
+        GOOD_NAME 'goodName', SELLING_POINT 'sellingPoint', SHORT_NAME 'shortName', GOOD_SPU 'goodSpu', AUTO_SHOW 'autoShow', VIRTUAL_FLAG 'virtualFlag',
+        MEMBER_FLAG 'memberFlag', COMBINA_FLAG 'combinaFlag', UP_TIME 'upTime', SALE_DAYS 'saleDays', gi.GOOD_STATUS 'goodStatus'
+        FROM t_good_info gi LEFT JOIN (SELECT CLASS_CODE,CLASS_NAME FROM t_good_class WHERE LENGTH(CLASS_CODE) = 4) gc1 ON gc1.`CLASS_CODE` = SUBSTR(gi.`GOOD_CLASS`,1, 4)
+        LEFT JOIN (SELECT CLASS_CODE,CLASS_NAME FROM t_good_class WHERE LENGTH(CLASS_CODE) = 6) gc2 ON gc2.`CLASS_CODE` = SUBSTR(gi.`GOOD_CLASS`,1, 6)
+        LEFT JOIN (SELECT CLASS_CODE,CLASS_NAME FROM t_good_class WHERE LENGTH(CLASS_CODE) = 8) gc3 ON gc3.`CLASS_CODE` = SUBSTR(gi.`GOOD_CLASS`,1, 8)
+        <where>
+            <if test="goodSpu != null">
+                gi.GOOD_SPU like CONCAT("%",#{goodSpu},"%")
+            </if>
+            <if test="goodName != null">
+                and gi.GOOD_NAME like CONCAT("%",#{goodName},"%")
+            </if>
+            <if test="goodStatus != null">
+                and gi.GOOD_STATUS = #{goodStatus}
+            </if>
+            <if test="virtualFlag != null">
+                and gi.VIRTUAL_FLAG = #{virtualFlag}
+            </if>
+            <if test="memberFlag != null">
+                and gi.MEMBER_FLAG = #{memberFlag}
+            </if>
+            <if test="combinaFlag != null">
+                and gi.COMBINA_FLAG = #{combinaFlag}
+            </if>
+            <if test="goodClass != null">
+                and gi.GOOD_CLASS = #{goodClass}
+            </if>
+            <if test="classCodes != null and classCodes.size() > 0">
+                and gi.GOOD_CLASS in
+                <foreach collection="classCodes"  item="code" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY gi.GOOD_ID
+    </select>
+
+    <select id="loadGoodSale" resultType="com.mmj.good.model.GoodSaleProperty">
+        SELECT
+        gs.GOOD_ID 'goodId',gs.GOOD_SKU 'goodSku', gm.MODEL_NAME 'modelName', gm.MODEL_VALUE 'modelValue', gs.BASE_PRICE 'basePrice', gs.SHOP_PRICE 'shopPrice',
+        gs.MEMBER_PRICE 'memberPrice', gs.GOOD_NUM 'goodNum', gs.SALE_NUM 'saleNum', gw.WAREHOUSE_NAME 'warehouseName'
+        FROM t_good_sale gs LEFT JOIN `t_good_model` gm ON gs.SALE_ID = gm.SALE_ID LEFT JOIN t_good_warehouse gw ON gs.SALE_ID = gw.SALE_ID
+        where gs.GOOD_ID in
+        <foreach collection="goodIds" item="goodId" open="(" separator="," close=")">
+          #{goodId}
+        </foreach>
+        ORDER BY gs.GOOD_ID
+    </select>
+
+    <select id="loadGoodImage" resultType="com.mmj.good.model.GoodImageProperty">
+        SELECT
+        GOOD_ID 'goodId',
+        GROUP_CONCAT(CASE file_type WHEN 'IMAGE' THEN file_url ELSE NULL END) 'image',
+        GROUP_CONCAT(CASE file_type WHEN 'SELLING_POINT' THEN file_url ELSE NULL END) 'sellingPoint',
+        GROUP_CONCAT(CASE file_type WHEN 'WECHAT' THEN file_url ELSE NULL END) 'wechat',
+        GROUP_CONCAT(CASE file_type WHEN 'H5' THEN file_url ELSE NULL END) 'h5'
+        FROM `t_good_file` WHERE file_type IN ('IMAGE', 'SELLING_POINT', 'WECHAT', 'H5') AND good_id in
+        <foreach collection="goodIds" item="goodId" open="(" separator="," close=")">
+            #{goodId}
+        </foreach>
+        GROUP BY good_id ORDER BY GOOD_ID,FILE_ORDER
+    </select>
+</mapper>

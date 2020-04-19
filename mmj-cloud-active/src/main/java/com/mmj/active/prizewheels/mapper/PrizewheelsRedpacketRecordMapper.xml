@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.prizewheels.mapper.PrizewheelsRedpacketRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.prizewheels.model.PrizewheelsRedpacketRecord">
+        <id column="ID" property="id" />
+        <result column="USER_ID" property="userId" />
+        <result column="INCREASE_MONEY" property="increaseMoney" />
+        <result column="BLANCE_REDPACKET" property="blanceRedpacket" />
+        <result column="GOT_WAYS" property="gotWays" />
+        <result column="STATUS" property="status" />
+        <result column="PRIZE_RECORD_ID" property="prizeRecordId" />
+        <result column="REACHED_COUNT" property="reachedCount" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+	<update id="updateUserId">
+  		UPDATE t_prizewheels_redpacket_record SET USER_ID = #{newUserId,jdbcType=BIGINT} WHERE USER_ID = #{oldUserId,jdbcType=BIGINT}
+  	</update>
+  	
+</mapper>

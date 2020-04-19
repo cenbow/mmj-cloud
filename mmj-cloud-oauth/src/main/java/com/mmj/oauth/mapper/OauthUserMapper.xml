@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.oauth.mapper.OauthUserMapper">
+  <resultMap id="BaseResultMap" type="com.mmj.oauth.model.OauthUser">
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="USER_FULL_NAME" jdbcType="VARCHAR" property="userFullName" />
+    <result column="USER_PASSWORD" jdbcType="VARCHAR" property="userPassword" />
+    <result column="USER_SALT" jdbcType="VARCHAR" property="userSalt" />
+    <result column="USER_STATUS" jdbcType="INTEGER" property="userStatus" />
+    <result column="USER_SEX" jdbcType="VARCHAR" property="userSex" />
+    <result column="IMAGES_URL" jdbcType="VARCHAR" property="imagesUrl" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    USER_ID, USER_FULL_NAME, USER_PASSWORD, USER_STATUS, USER_SEX, IMAGES_URL
+  </sql>
+  
+  <select id="findRoleIdByUserId" resultType="java.lang.Integer">
+  	SELECT ROLE_ID FROM t_user_role_mapper WHERE USER_ID=#{userId}
+  </select>
+  
+  <select id="findPermissionByRoleId" resultType="java.lang.String">
+  	SELECT t2.PER_PATTERN FROM t_role_permission_mapper t1 LEFT JOIN t_base_permission t2 ON t1.PER_ID=t2.PER_ID WHERE FIND_IN_SET(t1.ROLE_ID,#{roleIds}) GROUP BY t2.PER_PATTERN
+  </select>
+  
+</mapper>

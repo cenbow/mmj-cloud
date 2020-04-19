@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.prizewheels.mapper.PrizewheelsAccessRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.prizewheels.model.PrizewheelsAccessRecord">
+        <id column="USER_ID" property="userId" />
+        <result column="ACCESS_TIME" property="accessTime" />
+        <result column="ACCESS_COUNT" property="accessCount" />
+    </resultMap>
+    
+    <update id="updateUserId">
+  		UPDATE t_prizewheels_access_record SET USER_ID = #{newUserId,jdbcType=BIGINT} WHERE USER_ID = #{oldUserId,jdbcType=BIGINT}
+  	</update>
+
+</mapper>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.mapper.GoodSaleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.model.GoodSale">
+        <id column="SALE_ID" property="saleId" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="GOOD_SKU" property="goodSku" />
+        <result column="BASE_PRICE" property="basePrice" />
+        <result column="SHOP_PRICE" property="shopPrice" />
+        <result column="TUAN_PRICE" property="tuanPrice" />
+        <result column="MEMBER_PRICE" property="memberPrice" />
+        <result column="SALE_NUM" property="saleNum" />
+        <result column="GOOD_NUM" property="goodNum" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      SALE_ID,GOOD_ID,GOOD_SKU,BASE_PRICE,SHOP_PRICE,TUAN_PRICE,MEMBER_PRICE,SALE_NUM,GOOD_NUM,CREATER_ID,CREATER_TIME,MODIFY_ID,MODIFY_TIME
+    </sql>
+
+    <select id="select" parameterType="com.mmj.good.model.GoodSale" resultMap="BaseResultMap">
+        select
+          <include refid="Base_Column_List" />
+        from t_good_sale
+        <where>
+            <if test="saleId != null">
+                and SALE_ID = #{saleId}
+            </if>
+            <if test="goodId != null">
+                and GOOD_ID = #{goodId}
+            </if>
+            <if test="goodSku != null">
+                and GOOD_SKU = #{goodSku}
+            </if>
+            <if test="createrId != null">
+                and CREATER_ID = #{createrId}
+            </if>
+            <if test="modifyId != null">
+                and MODIFY_ID = #{modifyId}
+            </if>
+        </where>
+    </select>
+
+
+    <resultMap id="queryGroupBy" type="com.mmj.good.model.GoodSaleEx" extends="BaseResultMap">
+        <result column="WAREHOUSE_NUM" property="warehouseNum" />
+        <result column="WAREHOUSE_NAME" property="wareHouseShow" />
+    </resultMap>
+
+    <select id="queryGroupByInfo" parameterType="com.mmj.good.model.GoodSaleEx" resultMap="queryGroupBy">
+        SELECT
+            gs.GOOD_ID,MAX(gs.BASE_PRICE) BASE_PRICE,MIN(gs.SHOP_PRICE) SHOP_PRICE,MIN(gs.TUAN_PRICE) TUAN_PRICE,MIN(gs.MEMBER_PRICE) MEMBER_PRICE,SUM(gs.SALE_NUM) SALE_NUM, SUM(gs.GOOD_NUM) GOOD_NUM,
+            gw.WAREHOUSE_NUM, gw.WAREHOUSE_NAME
+        FROM t_good_sale gs
+          LEFT JOIN (SELECT GOOD_ID,SUM(WAREHOUSE_NUM) WAREHOUSE_NUM,GROUP_CONCAT(WAREHOUSE_NAME) WAREHOUSE_NAME FROM t_good_warehouse GROUP BY GOOD_ID) gw ON gs.GOOD_ID = gw.GOOD_ID
+        <where>
+            <if test="goodIds != null and goodIds.size() > 0">
+                and gs.GOOD_ID in
+                <foreach collection="goodIds"  item="goodId" open="(" separator="," close=")">
+                    #{goodId}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY gs.GOOD_ID
+    </select>
+
+    <update id="updateNum">
+        UPDATE t_good_sale SET SALE_NUM = SALE_NUM + ${num} WHERE GOOD_SKU = #{goodSku}
+    </update>
+
+    <resultMap id="OrderResultMap" type="com.mmj.good.model.GoodOrder" extends="BaseResultMap">
+        <association property="image" select="queryGoodFile" column="{saleId=SALE_ID}" />
+        <association property="goodInfo" select="queryGoodInfo" column="{goodId=GOOD_ID}" />
+        <association property="goodModels" select="queryGoodModels" column="{saleId=SALE_ID}" />
+        <association property="goodWarehouses" select="queryGoodWarehouses" column="{saleId=SALE_ID}" />
+    </resultMap>
+
+    <select id="queryOrderGood" resultMap="OrderResultMap">
+      select
+        <include refid="Base_Column_List" />
+      from t_good_sale where good_sku in
+        <foreach collection="goodSkus"  item="goodSku" open="(" separator="," close=")">
+            #{goodSku}
+        </foreach>
+    </select>
+
+    <select id="queryGoodFile" resultType="java.lang.String">
+      select
+        FILE_URL image
+      from t_good_file
+      where FILE_TYPE = 'SALEMODEL' and ACTIVE_TYPE = 16 and SALE_ID = #{saleId} and FILE_URL is not null
+    </select>
+
+    <select id="queryGoodInfo" resultType="com.mmj.good.model.GoodInfo">
+        select
+          <include refid="com.mmj.good.mapper.GoodInfoMapper.Order_Column_List" />
+        from t_good_info where good_id = #{goodId}
+    </select>
+
+    <select id="queryGoodModels" resultType="com.mmj.good.model.GoodModel">
+        select
+          <include refid="com.mmj.good.mapper.GoodModelMapper.Order_Column_List" />
+        from t_good_model where sale_id = #{saleId}
+    </select>
+
+    <select id="queryGoodWarehouses" resultType="com.mmj.good.model.GoodWarehouse">
+        select
+          <include refid="com.mmj.good.mapper.GoodWarehouseMapper.Order_Column_List" />
+        from t_good_warehouse where sale_id = #{saleId}
+    </select>
+</mapper>

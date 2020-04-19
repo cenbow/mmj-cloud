@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.seckill.mapper.SeckillInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.seckill.model.SeckillInfo">
+        <id column="SECKILL_ID" property="seckillId" />
+        <result column="SECKILL_TYPE" property="seckillType" />
+        <result column="SECKILL_NAME" property="seckillName" />
+        <result column="SECKILL_BANNER" property="seckillBanner" />
+        <result column="BANNER_HRAF" property="bannerHraf" />
+        <result column="EVERY_START_TIME" property="everyStartTime" />
+        <result column="EVERY_END_TIME" property="everyEndTime" />
+        <result column="INTERVAL_TIME" property="intervalTime" />
+        <result column="CONTINUE_DAYS" property="continueDays" />
+        <result column="EVERYONE_LIMIT" property="everyoneLimit" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      SECKILL_ID,SECKILL_TYPE,SECKILL_NAME,SECKILL_BANNER,BANNER_HRAF,EVERY_START_TIME,EVERY_END_TIME,INTERVAL_TIME,CONTINUE_DAYS,EVERYONE_LIMIT,CREATER_ID,CREATER_TIME,MODIFY_ID,MODIFY_TIME
+    </sql>
+
+    <resultMap id="queryMap" type="com.mmj.active.seckill.model.SeckillInfoEx" extends="BaseResultMap">
+        <association property="seckillTimesExes" select="querySeckillTimes" column="{seckillId=SECKILL_ID}" />
+    </resultMap>
+
+    <resultMap id="queryTimeMap" type="com.mmj.active.seckill.model.SeckillTimesEx">
+        <association property="activeGoodExes" select="queryActiveGoods" column="{businessId=timesId}" />
+    </resultMap>
+
+    <select id="queryDetail" resultMap="queryMap">
+        select
+          <include refid="Base_Column_List" />
+        from t_seckill_info
+        where seckill_type = #{seckillType}
+        <if test="seckillId != null">
+            and SECKILL_ID = #{seckillId}
+        </if>
+    </select>
+
+    <select id="querySeckillTimes" resultMap="queryTimeMap">
+        select
+          <include refid="com.mmj.active.seckill.mapper.SeckillTimesMapper.Base_Column_List"/>
+        from t_seckill_times
+        where SECKILL_ID = #{seckillId}
+        order by SECKILL_PRIOD
+    </select>
+
+    <select id="queryActiveGoods" resultType="com.mmj.active.common.model.ActiveGood">
+        select
+          <include refid="com.mmj.active.common.mapper.ActiveGoodMapper.Base_Column_List"/>
+        from t_active_good
+        where BUSINESS_ID = #{businessId} and ACTIVE_TYPE = 5
+    </select>
+
+    <resultMap id="queryMapActive" type="com.mmj.active.seckill.model.SeckillInfoEx" extends="BaseResultMap">
+        <association property="seckillTimesExes" select="querySeckillTimesActive" column="{seckillId=SECKILL_ID}" />
+    </resultMap>
+
+    <select id="queryDetailActive" resultMap="queryMapActive">
+        select
+        <include refid="Base_Column_List" />
+        from t_seckill_info
+        where seckill_type = #{seckillType}
+        <if test="seckillId != null">
+            and SECKILL_ID = #{seckillId}
+        </if>
+    </select>
+
+    <select id="querySeckillTimesActive" resultMap="queryTimeMap">
+        select
+        <include refid="com.mmj.active.seckill.mapper.SeckillTimesMapper.Base_Column_List"/>
+        from t_seckill_times
+        where SECKILL_ID = #{seckillId} and IS_ACTIVE = 1
+        order by SECKILL_PRIOD
+    </select>
+
+    <resultMap id="queryMapIn" type="com.mmj.active.seckill.model.SeckillInfoEx" extends="BaseResultMap">
+        <association property="seckillTimesExes" select="querySeckillTimesIn" column="{seckillId=SECKILL_ID}" />
+    </resultMap>
+
+    <select id="queryDetailIn" resultMap="queryMapIn">
+        select
+        <include refid="Base_Column_List" />
+        from t_seckill_info
+        where seckill_type = #{seckillType}
+        <if test="seckillId != null">
+            and SECKILL_ID = #{seckillId}
+        </if>
+    </select>
+
+    <select id="querySeckillTimesIn" resultMap="queryTimeMap">
+        select
+        <include refid="com.mmj.active.seckill.mapper.SeckillTimesMapper.Base_Column_List"/>
+        from t_seckill_times
+        where SECKILL_ID = #{seckillId} and IS_ACTIVE = 0
+        order by SECKILL_PRIOD
+    </select>
+
+</mapper>

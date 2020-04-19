@@ -1,0 +1,168 @@
+app:
+  context: https://alitest.polynome.cn/mmj/pay/
+  pay: ##支付相关配置
+    weixin:
+      mchid:  1512281721
+      key: UJ72Mw25gddKKSEW3dE8MVN4VHO2iEdX
+      notify: https://alitest.polynome.cn/mmj/pay/wxpayOrder/notifyUrl
+      transfers: ##发送零钱配置
+        mchid: 1512281721
+        key: UJ72Mw25gddKKSEW3dE8MVN4VHO2iEdX
+      redpack: ###发送红包配置
+        mchid: 1512281721
+        key: UJ72Mw25gddKKSEW3dE8MVN4VHO2iEdX
+  h5:
+    weixin:
+      wapurl: https://alitesth5.polynome.cn/pages/index/order/main
+spring:
+
+  application: 
+    name: mmj-cloud-pay
+    
+  sleuth:
+    enabled: true
+    http:
+      legacy:
+        enabled: true 
+    
+  redis:
+    cluster:
+      nodes:
+      - 121.40.83.80:7010
+      - 121.40.83.80:7011
+      - 121.40.83.80:7012
+      - 121.40.83.80:7013
+      - 121.40.83.80:7014
+      - 121.40.83.80:7015
+    password: mX66TGIwntkFHJzC
+    timeout: 20000
+    pool:
+        max-active: 100
+        min-idle: 1
+        max-idle: 10
+        max-wait: -1    
+      
+  datasource: 
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 10
+      min-idle: 10
+      max-active: 50
+      max-wait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 30000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20  
+      filters: stat,wall,log4j,slf4j
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      useGlobalDataSourceStat: true  
+      stat-view-servlet: 
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: 123456
+      master:
+        name: master
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://118.31.15.139:3306/mmj-order?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true
+        username: root
+        password: mX66TGIwntkFHJzC
+      slave:
+        name: slave
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://118.31.15.139:3306/mmj-order?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true
+        username: root
+        password: mX66TGIwntkFHJzC
+    
+  kafka:
+    bootstrap-servers: 192.168.1.20:9091,192.168.1.20:9092,192.168.1.20:9093
+    producer:
+      batch-size: 16
+      retries: 0
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: wxorder
+
+security:
+  basic:
+    enabled: false     
+     
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000
+      execution:
+        timeout: 
+          enabled: true
+        isolation:
+          thread: 
+            timeoutInMilliseconds: 180000
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 120000
+          semaphore:
+            maxConcurrentRequests: 1000  
+      fallback: 
+        isolation:
+          semaphore: 
+            maxConcurrentRequests: 1000      
+    circuitBreaker:
+      requestVolumeThreshold: 1000        
+
+        
+ribbon: 
+  eureka:
+    enabled: true
+  ReadTimeout: 60000
+  ConnectTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false     
+  httpclient: 
+    enabled: false
+  okhttp: 
+    enabled: true    
+    
+    
+feign:
+  hystrix:
+    enabled: true 
+  client:
+    config:
+      default:
+        connectTimeout: 60000
+        readTimeout: 60000
+        loggerLevel: basic
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+  response: 
+    enabled: true
+  httpclient:  
+    enabled: false
+  okhttp: 
+    enabled: true 
+
+          
+          
+          
+             

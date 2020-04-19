@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.freeorder.mapper.FreeInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.freeorder.model.FreeInfo">
+        <id column="ACTIVE_ID" property="activeId" />
+        <result column="ACTIVE_NAME" property="activeName" />
+        <result column="ACTIVE_STATUS" property="activeStatus" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+</mapper>

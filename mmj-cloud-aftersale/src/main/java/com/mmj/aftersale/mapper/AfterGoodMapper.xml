@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.aftersale.mapper.AfterGoodMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.aftersale.model.AfterGood">
+        <id column="AFTER_ID" property="afterId" />
+        <result column="ORDER_NO" property="orderNo" />
+        <result column="AFTER_SALE_NO" property="afterSaleNo" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="SALE_ID" property="saleId" />
+        <result column="GOOD_NAME" property="goodName" />
+        <result column="GOOD_IMAGE" property="goodImage" />
+        <result column="MODEL_NAME" property="modelName" />
+        <result column="GOOD_NUM" property="goodNum" />
+        <result column="BASE_PRICE" property="basePrice" />
+        <result column="ACTIVE_PRICE" property="activePrice" />
+        <result column="DISCOUNT_AMOUNT" property="discountAmount" />
+        <result column="COUPON_AMOUNT" property="couponAmount" />
+        <result column="LOGISTICS_AMOUNT" property="logisticsAmount" />
+        <result column="PACKAGE_NO" property="packageNo" />
+        <result column="REBACK_AMOUNT" property="rebackAmount" />
+        <result column="RETURN_AMOUNT" property="returnAmount" />
+        <result column="RETURN_DESC" property="returnDesc" />
+        <result column="ORDER_AMOUNT" property="orderAmount" />
+        <result column="AFTER_DESC" property="afterDesc" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+</mapper>

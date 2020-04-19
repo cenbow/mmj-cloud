@@ -1,0 +1,74 @@
+@CHARSET "UTF-8";
+
+body {
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+}
+
+input {
+	height: 20px;
+	width: 150px;
+	padding: 3px;
+}
+
+.mmj_button {
+	heigth: 24px;
+	line-height: 1;
+	width: 100px;
+	text-align: center;
+	padding: 5px 13px;
+	vertical-align: middle;
+	margin: 0px;
+	color: #fff;
+	background-color: #409eff;
+	cursor: pointer;
+	white-space: nowrap;
+	border-radius: 4px;
+}
+
+.mmj_head {
+	width: 500px;
+	margin: 0 auto;
+}
+
+.mmj_search {
+	margin-left: 10px;
+	line-height: 32px;
+	margin-top: 10px;
+}
+
+.mmj_content {
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.mmj_content table {
+	width: 100%;
+	border-collapse: collapse;
+	border: none;
+}
+
+.mmj_content table tr {
+	line-height: 32px;
+}
+
+.mmj_content table tr th, td {
+	text-align: center;
+	border: solid #ebeef5 1px;
+}
+
+.mmj_td_loading {
+	padding: 5px;
+}
+
+.mmj_image_loading {
+	width: 24px;
+	height: 24px;
+}
+
+.mmj_tip {
+	margin-left: 10px;
+	color: red;
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.notice.mapper.WxMediaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.notice.model.WxMedia">
+        <id column="ID" property="id" />
+        <result column="APPID" property="appid" />
+        <result column="BUSINESS_ID" property="businessId" />
+        <result column="BUSINESS_NAME" property="businessName" />
+        <result column="MEDIA_ID" property="mediaId" />
+        <result column="MEDIA_TYPE" property="mediaType" />
+        <result column="MEDIA_URL" property="mediaUrl" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+</mapper>

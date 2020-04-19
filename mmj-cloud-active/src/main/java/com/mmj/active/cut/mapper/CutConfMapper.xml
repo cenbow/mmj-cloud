@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.cut.mapper.CutConfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.cut.model.CutConf">
+        <id column="CONF_ID" property="confId" />
+        <result column="WEIXN_NAME" property="weixnName" />
+        <result column="RULE_CINTEXT" property="ruleCintext" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.manager.mapper.UserActiveMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.manager.model.UserActive">
+        <id column="CHECK_ID" property="checkId"/>
+        <result column="ACTIVE_TYPE" property="activeType"/>
+        <result column="BUSINESS_ID" property="businessId"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="LOTTERY_CODE" property="lotteryCode"/>
+        <result column="ORDER_ID" property="orderId"/>
+        <result column="ORDER_NO" property="orderNo"/>
+        <result column="CREATER_TIME" property="createrTime"/>
+    </resultMap>
+
+    <sql id="View_Column_List">
+      ACTIVE_TYPE,BUSINESS_ID,LOTTERY_CODE,USER_ID,ORDER_NO
+    </sql>
+
+    <select id="queryWinner" resultMap="BaseResultMap" parameterType="com.mmj.user.manager.model.UserActive">
+        SELECT
+        <include refid="View_Column_List"/>
+        FROM v_user_active WHERE 1 = 1
+        <if test="null != businessId">
+            and BUSINESS_ID = #{businessId,jdbcType=INTEGER}
+        </if>
+        <if test="null != activeType">
+            and ACTIVE_TYPE = #{activeType,jdbcType=INTEGER}
+        </if>
+        <if test="null != lotteryCode">
+            and LOTTERY_CODE = #{lotteryCode,jdbcType=VARCHAR}
+        </if>
+        <if test="null != userId">
+            and USER_ID = #{userId}
+        </if>
+        <if test="null != orderNo">
+            and ORDER_NO = #{orderNo}
+        </if>
+    </select>
+
+
+    <select id="queryJoinUserList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="View_Column_List"/>
+        FROM v_user_active WHERE 1 = 1
+        <if test="null != businessId">
+            and BUSINESS_ID = #{businessId,jdbcType=INTEGER}
+        </if>
+        <if test="null != activeType">
+            and ACTIVE_TYPE = #{activeType,jdbcType=INTEGER}
+        </if>
+    </select>
+
+
+    <select id="getActiveByCode" resultMap="BaseResultMap">
+        SELECT
+        <include refid="View_Column_List"/>
+        FROM v_user_active WHERE 1 = 1
+        <if test="null != businessId">
+            and BUSINESS_ID = #{businessId,jdbcType=INTEGER}
+        </if>
+        <if test="null != activeType">
+            and ACTIVE_TYPE = #{activeType,jdbcType=INTEGER}
+        </if>
+        <if test="null != lotteryCode">
+            and LOTTERY_CODE = #{lotteryCode,jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>

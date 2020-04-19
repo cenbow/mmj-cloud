@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.callCharge.mapper.CallChargeGoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.callCharge.model.CallChargeGoods">
+        <id column="ID" property="id" />
+        <result column="GOODS_TITLE" property="goodsTitle" />
+        <result column="GOODS_IMAGE" property="goodsImage" />
+        <result column="ORIGINAL_PRICE" property="originalPrice" />
+        <result column="UNIT_PRICE" property="unitPrice" />
+        <result column="RIGHT_PRICE" property="rightPrice" />
+        <result column="TODAY_PLAN_NUMBER" property="todayPlanNumber" />
+        <result column="TODAY_SEND_NUMBER" property="todaySendNumber" />
+        <result column="TOTAL_SEND_NUMBER" property="totalSendNumber" />
+        <result column="REMARKS" property="remarks" />
+        <result column="ACTIVE" property="active" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_AT" property="createAt" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_AT" property="updateAt" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.callCharge.mapper.CallChargeRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.callCharge.model.CallChargeRecord">
+        <id column="ID" property="id" />
+        <result column="ORDER_NO" property="orderNo" />
+        <result column="DIS_ORDER_NO" property="disOrderNo" />
+        <result column="ORDER_STATUS" property="orderStatus" />
+        <result column="ORDER_AMOUNT" property="orderAmount" />
+        <result column="GOODS_AMOUNT" property="goodsAmount" />
+        <result column="DISCOUNTED_PRICE" property="discountedPrice" />
+        <result column="GOODS_ID" property="goodsId" />
+        <result column="RECHARGE_ITEM_ID" property="rechargeItemId" />
+        <result column="RECHARGE_MOBILE" property="rechargeMobile" />
+        <result column="RECHARGE_AMOUNT" property="rechargeAmount" />
+        <result column="RECHARGE_STATUS" property="rechargeStatus" />
+        <result column="RECHARGE_ERROR_RESPONSE" property="rechargeErrorResponse" />
+        <result column="RIGHT_ORDER" property="rightOrder" />
+        <result column="REMARKS" property="remarks" />
+        <result column="ACTIVE" property="active" />
+        <result column="CREATE_BY" property="createBy" />
+        <result column="CREATE_AT" property="createAt" />
+        <result column="UPDATE_BY" property="updateBy" />
+        <result column="UPDATE_AT" property="updateAt" />
+    </resultMap>
+
+</mapper>

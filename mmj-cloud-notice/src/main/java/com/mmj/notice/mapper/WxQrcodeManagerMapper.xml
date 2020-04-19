@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.notice.mapper.WxQrcodeManagerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.notice.model.WxQrcodeManager">
+        <id column="ID" property="id" />
+        <result column="QRCODE_NAME" property="qrcodeName" />
+        <result column="APP_NAME" property="appName" />
+        <result column="APP_ID" property="appId" />
+        <result column="USER_TAG_NAMES" property="userTagNames" />
+        <result column="USER_TAG_IDS" property="userTagIds" />
+        <result column="CHANNEL_ID" property="channelId" />
+        <result column="CHANNEL_NAME" property="channelName" />
+        <result column="PERSON_COUNT" property="personCount" />
+        <result column="PATH" property="path" />
+        <result column="REPLY_ONE_TYPE" property="replyOneType" />
+        <result column="REPLY_ONE_CONTENT" property="replyOneContent" />
+        <result column="REPLY_ONE_DATA" property="replyOneData" />
+        <result column="REPLY_ONE_IMG" property="replyOneImg" />
+        <result column="REPLY_TWO_TYPE" property="replyTwoType" />
+        <result column="REPLY_TWO_CONTENT" property="replyTwoContent" />
+        <result column="REPLY_TWO_DATA" property="replyTwoData" />
+        <result column="REPLY_TWO_IMG" property="replyTwoImg" />
+        <result column="REPLY_THRID_TYPE" property="replyThridType" />
+        <result column="REPLY_THRID_CONTENT" property="replyThridContent" />
+        <result column="REPLY_THRID_DATA" property="replyThridData" />
+        <result column="REPLY_THRID_IMG" property="replyThridImg" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_ID" property="createId" />
+        <result column="CREATE_NAME" property="createName" />
+        <result column="UPDATE_ID" property="updateId" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_NAME" property="updateName" />
+    </resultMap>
+
+</mapper>

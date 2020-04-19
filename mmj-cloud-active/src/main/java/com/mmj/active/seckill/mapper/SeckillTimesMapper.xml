@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.seckill.mapper.SeckillTimesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.seckill.model.SeckillTimes">
+        <id column="TIMES_ID" property="timesId" />
+        <result column="SECKILL_PRIOD" property="seckillPriod" />
+        <result column="SECKILL_ID" property="seckillId" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="IS_ACTIVE" property="isActive" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      TIMES_ID timesId,SECKILL_PRIOD seckillPriod,SECKILL_ID seckillId,START_TIME startTime,END_TIME endTime,IS_ACTIVE isActive
+    </sql>
+
+    <resultMap id="queryTimeMap" type="com.mmj.active.seckill.model.SeckillTimesEx">
+        <association property="activeGoodExes" select="queryActiveGoods" column="{businessId=timesId}" />
+    </resultMap>
+
+    <select id="queryAndGood" resultMap="queryTimeMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_seckill_times
+        <where>
+            <if test="isActive != null">
+                IS_ACTIVE = #{isActive}
+            </if>
+            <if test="seckillId != null">
+                and SECKILL_ID = #{seckillId}
+            </if>
+            <if test="seckillPriod != null">
+                and SECKILL_PRIOD = #{seckillPriod}
+            </if>
+            <if test="seckillType == 1">
+                <if test="times != null">
+                    <if test="times == 'NOW'">
+                        and STR_TO_DATE(DATE_FORMAT(START_TIME, '%y-%m-%d %k:%i:%s'),'%y-%m-%d %k:%i:%s') <![CDATA[<=]]> STR_TO_DATE(CONCAT('19-10-01 ', DATE_FORMAT(NOW(), '%k:%i:%s')),'%y-%m-%d %k:%i:%s')
+                        and STR_TO_DATE(DATE_FORMAT(END_TIME, '%y-%m-%d %k:%i:%s'),'%y-%m-%d %k:%i:%s') >= STR_TO_DATE(CONCAT('19-10-01 ', DATE_FORMAT(NOW(), '%k:%i:%s')),'%y-%m-%d %k:%i:%s')
+                    </if>
+                    <if test="times == 'NEXT'">
+                        and STR_TO_DATE(DATE_FORMAT(START_TIME, '%y-%m-%d %k:%i:%s'),'%y-%m-%d %k:%i:%s') >= STR_TO_DATE(CONCAT('19-10-01 ', DATE_FORMAT(NOW(), '%k:%i:%s')),'%y-%m-%d %k:%i:%s')
+                    </if>
+                </if>
+            </if>
+        </where>
+        order by SECKILL_PRIOD
+        <if test="times != null and times != 'TOMORROW-NEXT'">
+            LIMIT 1
+        </if>
+        <if test="times == 'TOMORROW-NEXT'">
+            LIMIT 1,1
+        </if>
+    </select>
+
+    <select id="queryActiveGoods" resultMap="com.mmj.active.common.mapper.ActiveGoodMapper.BaseResultMap">
+        select
+          <include refid="com.mmj.active.common.mapper.ActiveGoodMapper.BASE_QUERY"/>
+        from t_active_good
+        where BUSINESS_ID = #{businessId} and ACTIVE_TYPE = 5 and GOOD_STATUS = 1 group by GOOD_ID order by GOOD_ORDER,GOOD_ID
+    </select>
+
+</mapper>

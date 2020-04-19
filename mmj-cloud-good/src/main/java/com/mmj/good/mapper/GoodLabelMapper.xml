@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.mapper.GoodLabelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.model.GoodLabel">
+        <id column="LABEL_ID" property="labelId" />
+        <result column="LABEL_NAME" property="labelName" />
+        <result column="HRAF_TYPE" property="hrafType" />
+        <result column="LABEL_STATUS" property="labelStatus" />
+        <result column="HREF_URL" property="hrefUrl" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      LABEL_ID,LABEL_NAME,HRAF_TYPE,LABEL_STATUS,HREF_URL,CREATER_ID,CREATER_TIME
+    </sql>
+
+    <resultMap id="BaseResultMapEx" type="com.mmj.good.model.GoodLabelEx">
+        <association column="{labelId=LABEL_ID}" property="goodName" select="queryGoodNames"  />
+        <association column="{labelId=LABEL_ID}" property="goodLabelMappers" select="queryGoodLabelMappers"  />
+    </resultMap>
+
+    <select id="queryList" resultMap="BaseResultMapEx">
+        select
+          <include refid="Base_Column_List" />
+        from t_good_label
+        where LABEL_STATUS != -1
+            <if test="labelStatus != null">
+                and LABEL_STATUS = #{labelStatus}
+            </if>
+            <if test="labelName != null">
+                and LABEL_NAME like CONCAT("%",#{labelName},"%")
+            </if>
+            <if test="labelIds != null and labelIds.size() > 0">
+                and LABEL_ID in
+                <foreach collection="labelIds"  item="labelId" open="(" separator="," close=")">
+                    #{labelId}
+                </foreach>
+            </if>
+        order by CREATER_TIME desc
+    </select>
+
+    <select id="queryGoodNames" resultType="java.lang.String">
+        select GROUP_CONCAT(good.GOOD_NAME) GOOD_NAME
+        from t_good_label_mapper mapper left join t_good_info good on mapper.GOOD_ID = good.GOOD_ID
+        where mapper.LABEL_ID = #{labelId} and DEL_FLAG = 0
+    </select>
+
+
+    <resultMap id="BaseResultMapperMapEx" type="com.mmj.good.model.GoodLabelMapperEx">
+        <result column="MAPPER_ID" property="mapperId" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="LABEL_ID" property="labelId" />
+        <result column="GOOD_NAME" property="goodName" />
+        <result column="FILE_URL" property="image" />
+    </resultMap>
+
+    <select id="queryGoodLabelMappers" resultMap="BaseResultMapperMapEx" >
+        select mapper.*, good.GOOD_NAME, file.FILE_URL
+        from t_good_label_mapper mapper left join t_good_info good on mapper.GOOD_ID = good.GOOD_ID
+        left join (select FILE_URL,GOOD_ID from t_good_file where ACTIVE_TYPE = 16 and FILE_TYPE = 'IMAGE' and TITLE_FLAG = 1 order by FILE_ORDER) file on mapper.GOOD_ID = file.GOOD_ID
+        where mapper.LABEL_ID = #{labelId} and DEL_FLAG = 0
+    </select>
+
+</mapper>

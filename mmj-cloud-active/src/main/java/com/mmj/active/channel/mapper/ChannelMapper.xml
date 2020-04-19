@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.channel.mapper.ChannelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.channel.model.Channel">
+        <result column="CHANNEL_ID" property="channelId" />
+        <result column="CHANNEL_NAME" property="channelName" />
+        <result column="CHANNEL_LINK" property="channelLink" />
+        <result column="USER_ID" property="userId" />
+        <result column="OPENID" property="openid" />
+        <result column="UNIONID" property="unionid" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+
+    <select id="selectChannelBy15"  resultType="com.mmj.active.channel.model.dto.ChannelDayDto">
+        SELECT *from (
+        SELECT
+        scanDay.channel_name,
+        IFNULL(personDay.personDayCount, 0) personDayCount,
+        scanDay.scanDayCount,
+        scanDay.date
+        FROM
+        (
+        SELECT
+        channel_name,
+        count(1) scanDayCount,
+        DATE_FORMAT(create_time, '%Y-%m-%d') date
+        FROM
+        t_buy_bak_channel
+        WHERE
+        DATE_FORMAT(create_time, '%Y-%m-%d')  <![CDATA[ >=  ]]>  #{endTime,jdbcType=VARCHAR}
+        AND DATE_FORMAT(create_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{startTime,jdbcType=VARCHAR}
+        AND unionid IS NOT NULL
+        GROUP BY
+        channel_name,
+        DATE_FORMAT(create_time, '%Y-%m-%d')
+        ) scanDay
+        LEFT JOIN (
+        SELECT
+        channel_name,
+        count(1) personDayCount,
+        create_time date
+        FROM
+        (
+        SELECT
+        channel_name,
+        unionid,
+        DATE_FORMAT(
+        min(create_time),
+        '%Y-%m-%d'
+        ) create_time
+        FROM
+        t_buy_bak_channel
+        WHERE
+        DATE_FORMAT(create_time, '%Y-%m-%d')  <![CDATA[ >=  ]]>  #{endTime,jdbcType=VARCHAR}
+        AND DATE_FORMAT(create_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{startTime,jdbcType=VARCHAR}
+        AND unionid IS NOT NULL
+        GROUP BY
+        unionid
+        ) a
+        GROUP BY
+        channel_name,
+        create_time
+        ) personDay ON scanDay.channel_name = personDay.channel_name
+        AND scanDay.date = personDay.date
+        ) A
+        <where>
+            <if test="channelName != null" >
+                channel_name  = #{channelName,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY date desc
+    </select>
+
+
+    <select id="selectScanSumCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+        count(1) scanSumCount
+        FROM
+        t_buy_bak_channel
+        where
+        unionid is not null
+        <if test="channelName != null" >
+            and  channel_name = #{channelName,jdbcType=VARCHAR}
+        </if>
+        GROUP BY
+        channel_name
+    </select>
+
+    <select id="selectpersonSumCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1) personSumCount
+        FROM
+        (
+        SELECT
+        channel_name,
+        unionid,
+        min(create_time)
+        FROM
+        t_buy_bak_channel
+        WHERE
+        unionid IS NOT NULL
+        GROUP BY
+        unionid
+        ) A
+        <where>
+            <if test="channelName != null" >
+                and  channel_name = #{channelName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectScanDaySumCount" resultType="java.lang.Integer">
+        SELECT
+        count(1) scanDaySumCount
+        FROM
+        t_buy_bak_channel
+        where
+        unionid is not null
+        AND DATE_FORMAT(create_time, '%Y-%m-%d')  <![CDATA[ >=  ]]>  #{endTime,jdbcType=VARCHAR}
+        AND DATE_FORMAT(create_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{startTime,jdbcType=VARCHAR}
+        <if test="channelName != null" >
+            and  channel_name = #{channelName,jdbcType=VARCHAR}
+        </if>
+        GROUP BY
+        channel_name
+    </select>
+
+
+    <select id="selectPersonDaySumCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1) scanDaySumCount
+        FROM
+        (
+        SELECT
+        channel_name,
+        unionid,
+        min(create_time)
+        FROM
+        t_buy_bak_channel
+        WHERE
+        unionid IS NOT NULL
+        AND DATE_FORMAT(create_time, '%Y-%m-%d')  <![CDATA[ >=  ]]>  #{endTime,jdbcType=VARCHAR}
+        AND DATE_FORMAT(create_time, '%Y-%m-%d') <![CDATA[ <= ]]> #{startTime,jdbcType=VARCHAR}
+        GROUP BY
+        unionid
+        ) A
+        <where>
+            <if test="channelName != null" >
+                and  channel_name = #{channelName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

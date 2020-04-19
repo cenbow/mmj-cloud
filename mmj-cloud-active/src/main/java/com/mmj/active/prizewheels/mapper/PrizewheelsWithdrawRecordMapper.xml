@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.prizewheels.mapper.PrizewheelsWithdrawRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.prizewheels.model.PrizewheelsWithdrawRecord">
+        <id column="ID" property="id" />
+        <result column="USER_ID" property="userId" />
+        <result column="NICKNAME" property="nickname" />
+        <result column="LAST_BALANCE" property="lastBalance" />
+        <result column="WITHDRAW_MONEY" property="withdrawMoney" />
+        <result column="REALTIME_BALANCE" property="realtimeBalance" />
+        <result column="TRADE_NO" property="tradeNo"/>
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+    
+    <update id="updateUserId">
+  		UPDATE t_prizewheels_withdraw_record SET USER_ID = #{newUserId,jdbcType=BIGINT} WHERE USER_ID = #{oldUserId,jdbcType=BIGINT}
+  	</update>
+
+</mapper>

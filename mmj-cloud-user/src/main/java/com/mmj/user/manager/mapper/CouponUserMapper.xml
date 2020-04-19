@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.manager.mapper.CouponUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.manager.model.CouponUser">
+        <id column="MAPPER_ID" property="mapperId" />
+        <result column="USER_ID" property="userId" />
+        <result column="COUPON_ID" property="couponId" />
+        <result column="COUPON_SOURCE" property="couponSource" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="CHECK_TIME" property="checkTime" />
+        <result column="USED_FLAG" property="usedFlag" />
+        <result column="ORDER_NO" property="orderNo" />
+        <result column="SEND_FLAG" property="sendFlag" />
+        <result column="MISS_FLAG" property="missFlag" />
+        <result column="DISTANCE_TIME" property="distanceTime" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+</mapper>

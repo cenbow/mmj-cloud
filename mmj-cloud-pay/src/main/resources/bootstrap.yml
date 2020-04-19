@@ -1,0 +1,61 @@
+server:
+  port: 8091
+custom:
+  security:
+    ignoreurls:
+    - /**/wxpayOrder/**
+spring:
+  cloud: 
+
+    config: 
+      discovery:
+         service-id: mmj-cloud-config 
+         enabled: true
+      label: ${git.branch.name:dev}
+      name: mmj-pay
+      profile: ${config.profile:dev}
+      username: mmj
+      password: mmj
+    loadbalancer:
+      retry:
+         enabled:true
+   
+    inetutils:
+      ignored-interfaces:
+      - lo
+      - eth1
+      - eth2
+   
+  application: 
+    name: mmj-cloud-pay  
+    
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+    
+eureka: 
+  instance:
+    metadata-map:
+      version: V1
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+    instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
+  client:
+    registry-fetch-interval-seconds: 5
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://mmj:mmj@service-eureka-0:8761/eureka/,http://mmj:mmj@service-eureka-1:8761/eureka/,http://mmj:mmj@service-eureka-2:8761/eureka/
+          
+logging: 
+  config: classpath:logback-spring.xml      
+  
+
+          
+          
+          
+             

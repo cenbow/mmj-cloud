@@ -1,0 +1,189 @@
+spring:
+  application: 
+    name: mmj-cloud-zuul
+    
+  redis:
+    cluster:
+      nodes:
+      - 121.40.83.80:7010
+      - 121.40.83.80:7011
+      - 121.40.83.80:7012
+      - 121.40.83.80:7013
+      - 121.40.83.80:7014
+      - 121.40.83.80:7015
+    password: mX66TGIwntkFHJzC
+    timeout: 20000
+    pool:
+        max-active: 100
+        min-idle: 1
+        max-idle: 10
+        max-wait: -1  
+
+  datasource: 
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 10
+      min-idle: 10
+      max-active: 50
+      max-wait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 30000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20  
+      filters: stat,wall,log4j,slf4j
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      useGlobalDataSourceStat: true  
+      stat-view-servlet: 
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: 123456
+      master:
+        name: master
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://118.31.15.139:3306/mmj?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true
+        username: root
+        password: mX66TGIwntkFHJzC
+      slave:
+        name: slave
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://118.31.15.139:3306/mmj?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true
+        username: root
+        password: mX66TGIwntkFHJzC
+    
+  sleuth:
+    enabled: true
+    http:
+      legacy:
+        enabled: true 
+        
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+      file-size-threshold: 10MB
+      location: /         
+        
+security:
+  basic:
+    enabled: false  
+
+zuul:
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+    max-total-connections: 1000
+    maxTotalConnections: 1000
+  semaphore:
+    maxSemaphores: 1000  
+  retryable: true
+  prefix: /mmj
+  routes:
+    auth:
+      path: /auth/**
+      service-id: mmj-cloud-oauth
+    user:
+      path: /user/**
+      service-id: mmj-cloud-user
+    good:
+      path: /good/**
+      service-id: mmj-cloud-good
+    job:
+      path: /job/**
+      service-id: mmj-cloud-job
+    turbine:
+      path: /turbine/**
+      service-id: mmj-cloud-turbine
+    active: 
+      path: /active/**
+      service-id: mmj-cloud-active
+    aftersale:
+      path: /aftersale/**
+      service-id: mmj-cloud-aftersale
+    elasticSearch:
+      path: /es/**
+      service-id: mmj-cloud-elasticsearch
+    order:
+      path: /order/**
+      service-id: mmj-cloud-order
+    pay:
+      path: /pay/**
+      service-id: mmj-cloud-pay
+    notice:
+      path: /notice/**
+      service-id: mmj-cloud-notice
+    third:
+      path: /third/**
+      service-id: mmj-cloud-third
+    statistics:
+      path: /statistics/**
+      service-id: mmj-cloud-statistics
+     
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000
+      execution:
+        timeout: 
+          enabled: true
+        isolation:
+          thread: 
+            timeoutInMilliseconds: 180000
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 240000
+          semaphore:
+            maxConcurrentRequests: 1000  
+      fallback: 
+        isolation:
+          semaphore: 
+            maxConcurrentRequests: 1000      
+    circuitBreaker:
+      requestVolumeThreshold: 1000 
+       
+        
+ribbon: 
+  eureka:
+    enabled: true
+  ReadTimeout: 60000
+  ConnectTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: true
+  ServerListRefreshInterval: 5000
+  httpclient: 
+    enabled: false
+  okhttp: 
+    enabled: true  
+    
+feign:
+  hystrix:
+    enabled: true 
+  client:
+    config:
+      default:
+        connectTimeout: 60000
+        readTimeout: 60000
+        loggerLevel: basic
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+  response: 
+    enabled: true
+  httpclient:  
+    enabled: false
+  okhttp: 
+    enabled: true   
+           

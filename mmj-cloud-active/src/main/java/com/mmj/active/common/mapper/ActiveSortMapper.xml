@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.common.mapper.ActiveSortMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.common.model.ActiveSort">
+        <id column="CONF_ID" property="confId" />
+        <result column="ACTIVE_TYPE" property="activeType" />
+        <result column="BUSINESS_ID" property="businessId" />
+        <result column="GOOD_CLASS" property="goodClass" />
+        <result column="ORDER_TYPE" property="orderType" />
+        <result column="FILTER_RULE" property="filterRule" />
+        <result column="ORDER_BY" property="orderBy" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+</mapper>

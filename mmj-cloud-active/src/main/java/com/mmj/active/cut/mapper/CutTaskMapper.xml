@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.cut.mapper.CutTaskMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.cut.model.CutTask">
+        <id column="TASK_ID" property="taskId" />
+        <result column="USER_ID" property="userId" />
+        <result column="SPONSOR_NUMBER" property="sponsorNumber" />
+        <result column="ASSIST_NUMBER" property="assistNumber" />
+        <result column="TASK_ONE_ASSIST_ID" property="taskOneAssistId" />
+        <result column="TASK_ONE_REWARD_AMOUNT" property="taskOneRewardAmount" />
+        <result column="TASK_ONE_REWARD_TIME" property="taskOneRewardTime" />
+        <result column="TASK_TWO_ASSIST_ID" property="taskTwoAssistId" />
+        <result column="TASK_TWO_REWARD_AMOUNT" property="taskTwoRewardAmount" />
+        <result column="TASK_TWO_REWARD_TIME" property="taskTwoRewardTime" />
+        <result column="TASK_THREE_ASSIST_ID" property="taskThreeAssistId" />
+        <result column="TASK_THREE_REWARD_AMOUNT" property="taskThreeRewardAmount" />
+        <result column="TASK_THREE_REWARD_TIME" property="taskThreeRewardTime" />
+        <result column="RED_CODE" property="redCode" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+</mapper>

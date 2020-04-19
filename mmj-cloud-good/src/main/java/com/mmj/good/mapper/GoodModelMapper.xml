@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.mapper.GoodModelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.model.GoodModel">
+        <id column="MODEL_ID" property="modelId" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="SALE_ID" property="saleId" />
+        <result column="MODEL_NAME" property="modelName" />
+        <result column="MODEL_VALUE" property="modelValue" />
+        <result column="MODEL_ORDER" property="modelOrder" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        MODEL_ID,GOOD_ID,SALE_ID,MODEL_NAME,MODEL_VALUE,MODEL_ORDER,CREATER_ID,CREATER_TIME
+    </sql>
+
+    <sql id="Order_Column_List">
+        MODEL_ID modelId,GOOD_ID goodId,SALE_ID saleId,MODEL_NAME modelName,MODEL_VALUE modelValue,MODEL_ORDER modelOrder,CREATER_ID createrId,CREATER_TIME createrTime
+    </sql>
+
+    <resultMap id="queryBaseMap" type="com.mmj.good.model.GoodModelEx" extends="BaseResultMap">
+        <association property="image" select="queryGoodFile" column="{saleId=SALE_ID}" />
+    </resultMap>
+
+    <select id="queryList" resultMap="queryBaseMap">
+        select
+          <include refid="Base_Column_List" />
+        from t_good_model
+        where GOOD_ID = #{goodId}
+        order by MODEL_ORDER
+    </select>
+
+    <select id="queryGoodFile" resultType="java.lang.String">
+        select
+          FILE_URL image
+        from t_good_file
+        where FILE_TYPE = 'SALEMODEL' and ACTIVE_TYPE = 16 and SALE_ID = #{saleId} and FILE_URL is not null
+    </select>
+
+    <select id="queryListBySku" resultMap="queryBaseMap">
+        select
+          <include refid="Base_Column_List" />
+        from
+        (select SALE_ID saleIds from t_good_sale where
+            GOOD_SKU in
+            <foreach collection="goodSkus"  item="goodSku" open="(" separator="," close=")">
+                #{goodSku}
+            </foreach>
+        ) gs left join t_good_model gm on gm.SALE_ID = gs.saleIds
+        order by MODEL_ORDER
+    </select>
+
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.pay.mapper.WxpayOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.pay.model.WxpayOrder">
+        <id column="PAY_ID" property="payId" />
+        <result column="APP_ID" property="appId" />
+        <result column="MCH_ID" property="mchId" />
+        <result column="DEVICE_INFO" property="deviceInfo" />
+        <result column="GOOD_DESC" property="goodDesc" />
+        <result column="GOOD_DETAIL" property="goodDetail" />
+        <result column="PAY_ATTACH" property="payAttach" />
+        <result column="OUT_TRADE_NO" property="outTradeNo" />
+        <result column="TRANSACTION_ID" property="transactionId" />
+        <result column="FEE_TYPE" property="feeType" />
+        <result column="TOTAL_FEE" property="totalFee" />
+        <result column="SPBILL_CREATE_IP" property="spbillCreateIp" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="GOOD_TAG" property="goodTag" />
+        <result column="NOTIFY_URL" property="notifyUrl" />
+        <result column="TRADE_TYPE" property="tradeType" />
+        <result column="TRADE_STATUS" property="tradeStatus" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="LIMIT_PAY" property="limitPay" />
+        <result column="OPEN_ID" property="openId" />
+        <result column="SCENE_INFO" property="sceneInfo" />
+        <result column="PREPAY_ID" property="prepayId" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+</mapper>

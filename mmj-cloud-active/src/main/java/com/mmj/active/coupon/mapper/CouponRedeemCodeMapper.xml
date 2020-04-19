@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.coupon.mapper.CouponRedeemCodeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.coupon.model.CouponRedeemCode">
+        <id column="ID" property="id" />
+        <result column="BATCH_CODE" property="batchCode" />
+        <result column="USER_ID" property="userId" />
+        <result column="COUPON_CODE" property="couponCode" />
+        <result column="REDEEM_CODE" property="redeemCode" />
+        <result column="ACTIVE" property="active" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into t_coupon_redeem_code (batch_code, redeem_code, create_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.batchCode}, #{item.redeemCode},#{item.createTime})
+        </foreach>
+    </insert>
+
+    <select id="selectRedeemCodes" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select redeem_code from t_coupon_redeem_code
+    where batch_code = #{batchCode}
+  </select>
+
+</mapper>

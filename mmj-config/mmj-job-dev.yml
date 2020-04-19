@@ -1,0 +1,119 @@
+spring:
+  application: 
+    name: mmj-cloud-job
+    
+  sleuth:
+    enabled: true
+    http:
+      legacy:
+        enabled: true
+  datasource:
+    url: jdbc:mysql://192.168.1.20:3306/xxl-job?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true
+    username: root
+    password: mmj1234
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    druid:
+      initial-size: 10
+      min-idle: 10
+      max-active: 50
+      max-wait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat,wall,log4j,slf4j
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      useGlobalDataSourceStat: true
+      stat-view-servlet:
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: admin
+        login-password: 123456
+      
+security:
+  basic:
+    enabled: false      
+      
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000
+      execution:
+        timeout: 
+          enabled: true
+        isolation:
+          thread: 
+            timeoutInMilliseconds: 180000
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 120000
+          semaphore:
+            maxConcurrentRequests: 1000  
+      fallback: 
+        isolation:
+          semaphore: 
+            maxConcurrentRequests: 1000      
+    circuitBreaker:
+      requestVolumeThreshold: 1000        
+
+        
+ribbon: 
+  eureka:
+    enabled: true
+  ReadTimeout: 60000
+  ConnectTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false     
+  httpclient: 
+    enabled: false
+  okhttp: 
+    enabled: true    
+    
+    
+feign:
+  hystrix:
+    enabled: true 
+  client:
+    config:
+      default:
+        connectTimeout: 60000
+        readTimeout: 60000
+        loggerLevel: basic
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+  response: 
+    enabled: true
+  httpclient:  
+    enabled: false
+  okhttp: 
+    enabled: true
+     
+xxl:
+  job:
+    admin:
+      ### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
+      addresses: http://192.168.1.13:9090/xxl-job-admin
+    ### xxl-job executor address
+    executor:
+      appname: mmj-cloud-job
+      ip:
+      port: 9999
+      ### xxl-job log path
+      logpath: logs/jobhandler
+      ### xxl-job log retention days
+      logretentiondays: -1
+    ### xxl-job, access token
+    accessToken:

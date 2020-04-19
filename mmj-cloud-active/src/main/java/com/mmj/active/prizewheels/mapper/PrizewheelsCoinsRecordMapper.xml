@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.prizewheels.mapper.PrizewheelsCoinsRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.prizewheels.model.PrizewheelsCoinsRecord">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="increase_coins" property="increaseCoins" />
+        <result column="blance_coins" property="blanceCoins" />
+        <result column="got_ways" property="gotWays" />
+        <result column="prize_code" property="prizeCode" />
+        <result column="prize_name" property="prizeName" />
+        <result column="status" property="status" />
+        <result column="prize_record_id" property="prizeRecordId" />
+        <result column="friends_user_id" property="friendsUserId" />
+        <result column="good_id" property="goodId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+	
+	<select id="queryUserCurrentDaySignCount" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		SELECT
+		COUNT(0)
+	FROM
+		T_PRIZEWHEELS_COINS_RECORD T
+	WHERE
+		T.USER_ID = #{userId,jdbcType=BIGINT}
+		AND (
+			T.GOT_WAYS = 'SIGN' 
+			OR T.GOT_WAYS = 'NEW_USER'
+		)
+		AND DATE_FORMAT(CREATE_TIME, '%Y%M%D') = DATE_FORMAT(NOW(), '%Y%M%D');
+	</select>
+	
+	<select id="getContinuousSigninDays" resultType="java.lang.Integer">
+  		SELECT FUN_PRIZEWHEELS_SIGN_DAYS(#{userId,jdbcType=BIGINT}, DATE('2019-01-24'), DATE(#{endDate,jdbcType=VARCHAR}))
+  		<!-- 2019-01-24是转盘第一次上线的前一天日期，以此为最开始的日期 -->
+  	</select>
+  	
+  	<update id="updateUserId">
+  		UPDATE t_prizewheels_coins_record SET USER_ID = #{newUserId,jdbcType=BIGINT} WHERE USER_ID = #{oldUserId,jdbcType=BIGINT}
+  	</update>
+
+</mapper>

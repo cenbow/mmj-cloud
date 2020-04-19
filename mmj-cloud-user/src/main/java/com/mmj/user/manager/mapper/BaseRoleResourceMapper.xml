@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.manager.mapper.BaseRoleResourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.manager.model.BaseRoleResource">
+        <id column="MAPPER_ID" property="mapperId" />
+        <result column="ROLE_ID" property="roleId" />
+        <result column="RES_ID" property="resId" />
+    </resultMap>
+    
+    <select id="queryByRoleId" parameterType="java.lang.Integer" resultType="com.mmj.user.manager.vo.RoleResourceDetail">
+    SELECT a.`MAPPER_ID`, a.`ROLE_ID`, a.`RES_ID`, b.* FROM t_role_res_mapper a INNER JOIN t_base_resource b ON a.`RES_ID` = b.`RES_ID` AND a.`ROLE_ID` = #{roleId, jdbcType=INTEGER}
+    </select>
+
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.manager.mapper.BaseRolePermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.manager.model.BaseRolePermission">
+        <id column="MAPPER_ID" property="mapperId" />
+        <result column="ROLE_ID" property="roleId" />
+        <result column="PER_ID" property="perId" />
+    </resultMap>
+    
+    <select id="queryByRoleId" parameterType="java.lang.Integer" resultType="com.mmj.user.manager.vo.RolePermissionDetail">
+    	SELECT a.`MAPPER_ID`, a.`ROLE_ID`, b.* FROM t_role_permission_mapper a INNER JOIN t_base_permission b ON a.`PER_ID` = b.`PER_ID` AND a.`ROLE_ID` = #{roleId, jdbcType=INTEGER}
+    </select>
+
+</mapper>

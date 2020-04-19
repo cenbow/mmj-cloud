@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.pay.mapper.WxMchInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.pay.model.WxMchInfo">
+        <id column="ID" property="id" />
+        <result column="MCH_ID" property="mchId" />
+        <result column="MCH_KEY" property="mchKey" />
+        <result column="ORDER_TYPE" property="orderType" />
+    </resultMap>
+
+</mapper>

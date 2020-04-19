@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.member.mapper.MemberImportMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.member.model.MemberImport">
+        <id column="ID" property="id" />
+        <result column="MOBILE" property="mobile" />
+        <result column="USER_ID" property="userId" />
+        <result column="AMOUNT" property="amount" />
+        <result column="SOURCE" property="source" />
+        <result column="ACTIVE" property="active" />
+        <result column="MERGE_FLAG" property="mergeFlag" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+</mapper>

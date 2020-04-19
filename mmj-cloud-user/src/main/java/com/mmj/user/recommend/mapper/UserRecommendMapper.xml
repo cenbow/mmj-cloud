@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.recommend.mapper.UserRecommendMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.recommend.model.UserRecommend">
+        <id column="RECOMMEND_ID" property="recommendId" />
+        <result column="ORDER_NO" property="orderNo" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="GOOD_SKU" property="goodSku" />
+        <result column="GOOD_NAME" property="goodName" />
+        <result column="GOOD_IMAGE" property="goodImage" />
+        <result column="CREATER_NAME" property="createrName" />
+        <result column="RECOMMEND_CONTEXT" property="recommendContext" />
+        <result column="RETURN_MSG" property="returnMsg" />
+        <result column="RECOMMEND_STATUS" property="recommendStatus" />
+        <result column="SHOW_STATUS" property="showStatus" />
+        <result column="CREATER_HEAD" property="createrHead" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        RECOMMEND_ID, ORDER_NO, GOOD_ID, GOOD_SKU, GOOD_NAME, GOOD_IMAGE, CREATER_NAME, RECOMMEND_CONTEXT, RETURN_MSG, RECOMMEND_STATUS,
+        SHOW_STATUS, CREATER_HEAD, CREATER_ID, CREATER_TIME, MODIFY_ID, MODIFY_TIME
+    </sql>
+
+    <resultMap id="queryBaseMap" type="com.mmj.user.recommend.model.UserRecommendEx" extends="BaseResultMap"/>
+
+    <resultMap id="selectBaseMap" type="com.mmj.user.recommend.model.vo.UserRecommendVo" extends="BaseResultMap"/>
+
+    <select id="queryList" resultMap="queryBaseMap">
+      select
+      <include refid="Base_Column_List"/>
+        from
+        t_user_recommend
+        <where>
+            <if test="recommendStatus != null and recommendStatus == 0">
+                RECOMMEND_STATUS = 0
+            </if>
+            <if test="recommendStatus != null and recommendStatus != 0">
+                RECOMMEND_STATUS != 0
+            </if>
+            <if test="goodName != null">
+                and GOOD_NAME like CONCAT('%', #{goodName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="createrName != null">
+                and CREATER_NAME like CONCAT('%', #{createrName,jdbcType=VARCHAR}, '%')
+            </if>
+        </where>
+        order by CREATER_TIME desc
+    </select>
+
+    <select id="selectRecommendAllList" resultMap="selectBaseMap">
+      (
+      SELECT
+          <include refid="Base_Column_List"/>
+          FROM
+          t_user_recommend
+      WHERE
+      GOOD_ID = #{goodId,jdbcType=INTEGER}
+      AND CREATER_ID = #{createrId}
+      ORDER BY
+      CREATER_TIME DESC
+      LIMIT 1
+      )
+      union
+      (
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM
+      t_user_recommend
+      WHERE
+      GOOD_ID = #{goodId,jdbcType=INTEGER}
+      AND SHOW_STATUS = #{showStatus,jdbcType=INTEGER}
+      ORDER BY
+      CREATER_TIME DESC,
+      RECOMMEND_ID desc
+      LIMIT 10000
+      )
+    </select>
+
+    <select id="selectRecommendList" resultMap="selectBaseMap">
+        (SELECT
+        ri.*
+        FROM
+        t_user_recommend ri
+        LEFT JOIN t_user_recommend_file rf ON ri.RECOMMEND_ID = rf.RECOMMEND_ID
+        WHERE
+        ri.GOOD_ID = #{goodId,jdbcType=INTEGER}
+        <if test="fileFormat != null">
+            AND rf.FILE_FORMAT = #{fileFormat}
+        </if>
+        <if test="createrId != null">
+            AND ri.CREATER_ID = #{createrId}
+        </if>
+        ORDER BY
+        ri.CREATER_TIME DESC
+        LIMIT 1)
+
+        union
+
+        (SELECT
+        ri.*
+        FROM
+        t_user_recommend ri
+        LEFT JOIN t_user_recommend_file rf ON ri.RECOMMEND_ID = rf.RECOMMEND_ID
+        WHERE
+        ri.GOOD_ID = #{goodId,jdbcType=INTEGER}
+        AND ri.SHOW_STATUS = #{showStatus,jdbcType=INTEGER}
+        <if test="fileFormat != null">
+            AND rf.FILE_FORMAT = #{fileFormat}
+        </if>
+        GROUP BY
+        RECOMMEND_ID
+        ORDER BY
+        CREATER_TIME DESC,
+        RECOMMEND_ID desc
+        LIMIT 10000
+        )
+    </select>
+
+
+    <select id="selectAlltotal" resultType="java.lang.Integer">
+       select  count(1) from(
+        (
+        SELECT
+        *
+        FROM
+        t_user_recommend
+        WHERE
+        GOOD_ID = #{goodId,jdbcType=INTEGER}
+        AND CREATER_ID = #{createrId}
+        ORDER BY
+        CREATER_TIME DESC
+        LIMIT 1
+        )
+        union
+        (
+        SELECT
+        *
+        FROM
+        t_user_recommend
+        WHERE
+        GOOD_ID = #{goodId,jdbcType=INTEGER}
+        AND SHOW_STATUS = #{showStatus,jdbcType=INTEGER}
+        )
+        )A
+    </select>
+
+    <select id="selectPictureOrVideoTotal" resultType="java.lang.Integer">
+        select count(1) from(
+        (SELECT
+        ri.*
+        FROM
+        t_user_recommend ri
+        LEFT JOIN t_user_recommend_file rf ON ri.RECOMMEND_ID = rf.RECOMMEND_ID
+        WHERE
+        ri.GOOD_ID = #{goodId,jdbcType=INTEGER}
+        <if test="fileFormat != null">
+            AND rf.FILE_FORMAT = #{fileFormat}
+        </if>
+        <if test="createrId != null">
+            AND ri.CREATER_ID = #{createrId}
+        </if>
+        ORDER BY
+        ri.CREATER_TIME DESC
+        LIMIT 1)
+
+        union
+
+        (SELECT
+        ri.*
+        FROM
+        t_user_recommend ri
+        LEFT JOIN t_user_recommend_file rf ON ri.RECOMMEND_ID = rf.RECOMMEND_ID
+        WHERE
+        ri.GOOD_ID = #{goodId,jdbcType=INTEGER}
+        AND ri.SHOW_STATUS = #{showStatus,jdbcType=INTEGER}
+        <if test="fileFormat != null">
+            AND rf.FILE_FORMAT = #{fileFormat}
+        </if>
+        GROUP BY
+        RECOMMEND_ID
+        )
+        )A
+    </select>
+
+    <update id="updateUserId">
+  		UPDATE t_user_recommend SET CREATER_ID = #{newUserId,jdbcType=BIGINT} WHERE CREATER_ID = #{oldUserId,jdbcType=BIGINT}
+  	</update>
+
+</mapper>

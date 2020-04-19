@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.common.mapper.ActiveGoodMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.common.model.ActiveGood">
+        <id column="MAPPERY_ID" property="mapperyId"/>
+        <result column="ACTIVE_TYPE" property="activeType"/>
+        <result column="BUSINESS_ID" property="businessId"/>
+        <result column="GOOD_ID" property="goodId"/>
+        <result column="SELLING_POINT" property="sellingPoint"/>
+        <result column="BASE_PRICE" property="basePrice" />
+        <result column="ACTIVE_PRICE" property="activePrice"/>
+        <result column="MEMBER_PRICE" property="memberPrice" />
+        <result column="SALE_ID" property="saleId"/>
+        <result column="GOOD_NAME" property="goodName"/>
+        <result column="SHORT_NAME" property="shortName" />
+        <result column="GOOD_CLASS" property="goodClass" />
+        <result column="MODEL_NAME" property="modelName"/>
+        <result column="MODEL_ID" property="modelId" />
+        <result column="MODEL_VALUE" property="modelValue" />
+        <result column="GOOD_IMAGE" property="goodImage"/>
+        <result column="GOOD_ORDER" property="goodOrder"/>
+        <result column="GOOD_SKU" property="goodSku"/>
+        <result column="ACTIVE_STORE" property="activeStore"/>
+        <result column="ACTIVE_VIRTUAL" property="activeVirtual"/>
+        <result column="GOOD_SPU" property="goodSpu"/>
+        <result column="GOOD_LIMIT" property="goodLimit"/>
+        <result column="LIMIT_TYPE" property="limitType"/>
+        <result column="LIMIT_NUM" property="limitNum"/>
+        <result column="GROUP_PERSON" property="groupPerson" />
+        <result column="MEMBER_FLAG" property="memberFlag" />
+        <result column="VIRTUAL_FLAG" property="virtualFlag" />
+        <result column="COMBINA_FLAG" property="combinaFlag" />
+        <result column="GOOD_STATUS" property="goodStatus" />
+        <result column="ARG_1" property="arg1" />
+        <result column="ARG_2" property="arg2" />
+        <result column="ARG_3" property="arg3" />
+        <result column="ARG_4" property="arg4" />
+        <result column="ARG_5" property="arg5" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      MAPPERY_ID mapperyId, ACTIVE_TYPE activeType, BUSINESS_ID businessId, GOOD_ID goodId, SELLING_POINT sellingPoint, BASE_PRICE basePrice, ACTIVE_PRICE activePrice, MEMBER_PRICE memberPrice, SALE_ID saleId,
+      GOOD_NAME goodName, SHORT_NAME shortName, GOOD_CLASS goodClass, MODEL_NAME modelName, MODEL_VALUE modelValue, MODEL_ID modelId, GOOD_IMAGE goodImage, GOOD_ORDER goodOrder, GOOD_SKU goodSku, ACTIVE_STORE activeStore,
+      ACTIVE_VIRTUAL activeVirtual, GOOD_SPU goodSpu, GOOD_LIMIT goodLimit, LIMIT_TYPE limitType, LIMIT_NUM limitNum, GROUP_PERSON groupPerson, MEMBER_FLAG memberFlag, VIRTUAL_FLAG virtualFlag, COMBINA_FLAG combinaFlag,
+      GOOD_STATUS goodStatus, ARG_1 arg1, ARG_2 arg2, ARG_3 arg3, ARG_4 arg4, ARG_5 arg5,KING_NUM
+    </sql>
+
+    <sql id="BASE_QUERY">
+        MAX(MAPPERY_ID) MAPPERY_ID,ACTIVE_TYPE,GOOD_ID,SELLING_POINT,MAX(BASE_PRICE) BASE_PRICE,MIN(ACTIVE_PRICE) ACTIVE_PRICE,MIN(MEMBER_PRICE) MEMBER_PRICE,GOOD_NAME,SHORT_NAME,GOOD_CLASS,GOOD_IMAGE,GOOD_ORDER,GOOD_SPU,
+        SUM(ACTIVE_STORE) ACTIVE_STORE,SUM(ACTIVE_VIRTUAL) ACTIVE_VIRTUAL,GOOD_LIMIT,LIMIT_TYPE,LIMIT_NUM,GROUP_PERSON,MEMBER_FLAG,VIRTUAL_FLAG,COMBINA_FLAG,GOOD_STATUS,ARG_1,ARG_2,ARG_3,ARG_4,ARG_5,KING_NUM
+    </sql>
+
+    <update id="decActiveVirtual" parameterType="java.lang.Integer">
+        UPDATE t_active_good SET active_virtual=active_virtual-1 WHERE business_id=#{businessId} AND active_virtual>0
+    </update>
+
+    <select id="queryBaseList" parameterType="com.mmj.active.common.model.ActiveGood" resultMap="BaseResultMap">
+        SELECT
+          <include refid="BASE_QUERY" />
+        FROM t_active_good
+        <where>
+            <if test="mapperyId != null">
+                MAPPERY_ID = #{mapperyId}
+            </if>
+            <if test="goodSpu != null">
+                and GOOD_SPU like CONCAT("%",#{goodSpu},"%")
+            </if>
+            <if test="goodName != null">
+                and GOOD_NAME like CONCAT("%",#{goodName},"%")
+            </if>
+            <if test="goodId != null">
+                and GOOD_ID = #{goodId}
+            </if>
+            <if test="businessId != null">
+                and BUSINESS_ID = #{businessId}
+            </if>
+            <if test="activeType != null">
+                and ACTIVE_TYPE = #{activeType}
+            </if>
+            <if test="goodClass != null">
+                and GOOD_CLASS = #{goodClass}
+            </if>
+            <if test="goodStatus != null">
+                and GOOD_STATUS = #{goodStatus}
+            </if>
+            <if test="memberFlag != null">
+                and MEMBER_FLAG = #{memberFlag}
+            </if>
+            <if test="virtualFlag != null">
+                and VIRTUAL_FLAG = #{virtualFlag}
+            </if>
+            <if test="combinaFlag != null">
+                and COMBINA_FLAG = #{combinaFlag}
+            </if>
+            <if test="arg1 != null">
+                and ARG_1 = #{arg1}
+            </if>
+            <if test="arg2 != null">
+                and ARG_2 = #{arg2}
+            </if>
+        </where>
+        GROUP BY ACTIVE_TYPE,GOOD_ID
+        ORDER BY GOOD_ORDER,GOOD_ID
+    </select>
+
+    <select id="queryBaseOrder" parameterType="com.mmj.active.common.model.ActiveGoodEx" resultMap="BaseResultMap">
+        SELECT
+        <include refid="BASE_QUERY" />
+        FROM t_active_good
+        <where>
+            <if test="mapperyId != null">
+                MAPPERY_ID = #{mapperyId}
+            </if>
+            <if test="goodId != null">
+                AND GOOD_ID = #{goodId}
+            </if>
+            <if test="businessId != null">
+                AND BUSINESS_ID = #{businessId}
+            </if>
+            <if test="activeType != null">
+                AND ACTIVE_TYPE = #{activeType}
+            </if>
+            <if test="goodClass != null">
+                AND GOOD_CLASS = #{goodClass}
+            </if>
+            <if test="goodStatus != null">
+                AND GOOD_STATUS = #{goodStatus}
+            </if>
+            <if test="memberFlag != null">
+                AND MEMBER_FLAG = #{memberFlag}
+            </if>
+            <if test="virtualFlag != null">
+                AND VIRTUAL_FLAG = #{virtualFlag}
+            </if>
+            <if test="combinaFlag != null">
+                AND COMBINA_FLAG = #{combinaFlag}
+            </if>
+            <if test="arg1 != null">
+                AND ARG_1 = #{arg1}
+            </if>
+            <if test="arg2 != null">
+                AND ARG_2 = #{arg2}
+            </if>
+            <if test="goodClasses != null and goodClasses.size() > 0">
+                AND GOOD_CLASS in
+                <foreach collection="goodClasses"  item="goodClass" open="(" separator="," close=")">
+                    #{goodClass}
+                </foreach>
+            </if>
+            <if test="goodIds != null and goodIds.size > 0">
+                AND GOOD_ID in
+                <foreach collection="goodIds"  item="goodId" open="(" separator="," close=")">
+                    #{goodId}
+                </foreach>
+            </if>
+            <if test="noGoodIds != null and noGoodIds.size > 0">
+                AND GOOD_ID not in
+                <foreach collection="noGoodIds"  item="goodId" open="(" separator="," close=")">
+                    #{goodId}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY ACTIVE_TYPE,GOOD_ID
+        <if test="orderSql != null">
+          order by ${orderSql}
+        </if>
+    </select>
+</mapper>

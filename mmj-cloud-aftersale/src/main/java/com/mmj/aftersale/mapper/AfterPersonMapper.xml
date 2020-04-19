@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.aftersale.mapper.AfterPersonMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.aftersale.model.AfterPerson">
+        <id column="AFTER_ID" property="afterId" />
+        <result column="AFTER_SALE_NO" property="afterSaleNo" />
+        <result column="USER_REMARK" property="userRemark" />
+        <result column="AFTER_IMAGE" property="afterImage" />
+        <result column="WAREHOUSE_ADDR" property="warehouseAddr" />
+        <result column="WAREHOUSE_PERSON" property="warehousePerson" />
+        <result column="WAREHOUSE_MOBILE" property="warehouseMobile" />
+        <result column="LOGISTICS_NO" property="logisticsNo" />
+        <result column="LOGISTICS_CODE" property="logisticsCode" />
+        <result column="LOGISTICS_NAME" property="logisticsName" />
+        <result column="REJECT_REMARK" property="rejectRemark" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+</mapper>

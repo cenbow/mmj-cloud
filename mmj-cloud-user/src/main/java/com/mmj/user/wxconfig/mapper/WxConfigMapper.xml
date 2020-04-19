@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.wxconfig.mapper.WxConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.wxconfig.model.WxConfig">
+        <id column="CONFIG_ID" property="configId" />
+        <result column="WX_NO" property="wxNo" />
+        <result column="WX_NAME" property="wxName" />
+        <result column="APP_ID" property="appId" />
+        <result column="SECRET" property="secret" />
+        <result column="TYPE" property="type" />
+    </resultMap>
+
+</mapper>

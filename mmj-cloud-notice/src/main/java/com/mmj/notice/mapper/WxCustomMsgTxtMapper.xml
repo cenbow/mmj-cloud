@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.notice.mapper.WxCustomMsgTxtMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.notice.model.WxCustomMsgTxt">
+        <id column="ID" property="id" />
+        <result column="WX_NO" property="wxNo" />
+        <result column="APPID" property="appid" />
+        <result column="APP_NAME" property="appName" />
+        <result column="RULE_NAME" property="ruleName" />
+        <result column="KEY_WORD" property="keyWord" />
+        <result column="MATCH_RULE" property="matchRule" />
+        <result column="REPLY_TYPE" property="replyType" />
+        <result column="REPLY_IMG" property="replyImg" />
+        <result column="REPLY_CONTENT" property="replyContent" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+    <select id="selectByPage" resultType="java.util.Map">
+        select GROUP_CONCAT(id) id,wx_no wxNo,appid appid,app_name appName,RULE_NAME ruleName, GROUP_CONCAT(KEY_WORD) keyword,GROUP_CONCAT(MATCH_RULE) matchRule,
+REPLY_TYPE replyType,REPLY_IMG replyImg,REPLY_CONTENT replyContent,CREATE_TIME createTime from t_wx_custom_msg_txt
+where appid=#{appid}
+<if test="keyWord != null and keyWord != ''">
+    and KEY_WORD = #{keyWord}
+</if>
+        <if test="ruleName != null and ruleName != ''">
+            and RULE_NAME = #{ruleName}
+        </if>
+GROUP BY RULE_NAME
+    </select>
+
+
+</mapper>

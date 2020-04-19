@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.stock.mapper.GoodStockMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.stock.model.GoodStock">
+        <id column="STOCK_ID" property="stockId" />
+        <result column="GOOD_SKU" property="goodSku" />
+        <result column="GOOD_NUM" property="goodNum" />
+        <result column="STATUS" property="status" />
+        <result column="BUSINESS_ID" property="businessId" />
+        <result column="BUSINESS_TYPE" property="businessType" />
+        <result column="EXPIRE_TIME" property="expireTime" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.order.mapper.OrderLogisticsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.order.model.OrderLogistics">
+        <id column="LOGISTICS_ID" property="logisticsId"/>
+        <result column="PACKAGE_NO" property="packageNo"/>
+        <result column="ORDER_ID" property="orderId"/>
+        <result column="ORDER_NO" property="orderNo"/>
+        <result column="COMPANY_CODE" property="companyCode"/>
+        <result column="COMPANY_NAME" property="companyName"/>
+        <result column="LOGISTICS_NO" property="logisticsNo"/>
+        <result column="COUNTRY" property="country"/>
+        <result column="PROVINCE" property="province"/>
+        <result column="CITY" property="city"/>
+        <result column="AREA" property="area"/>
+        <result column="CONSUMER_ADDR" property="consumerAddr"/>
+        <result column="CONSUMER_NAME" property="consumerName"/>
+        <result column="CONSUMER_MOBILE" property="consumerMobile"/>
+        <result column="SEND_TIME" property="sendTime"/>
+        <result column="CHECK_TIME" property="checkTime"/>
+        <result column="END_TIME" property="endTime"/>
+        <result column="CREATER_ID" property="createrId"/>
+        <result column="CREATER_TIME" property="createrTime"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+       LOGISTICS_ID,PACKAGE_NO,ORDER_ID,ORDER_NO,COMPANY_CODE,COMPANY_NAME,LOGISTICS_NO,COUNTRY,PROVINCE,CITY,AREA,CONSUMER_ADDR,CONSUMER_NAME,
+       CONSUMER_MOBILE,SEND_TIME,CHECK_TIME,END_TIME,CREATER_ID,CREATER_TIME
+
+    </sql>
+
+    <!-- boss后台 通过订单号查询快递信息  -->
+    <select id="selectByOrderNo" resultMap="BaseResultMap" resultType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from v_order_logistics
+        WHERE ORDER_NO=#{orderNo}
+    </select>
+
+
+    <!--boss后台通过收件人姓名查询  -->
+    <select id="queryLogistics" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from v_order_logistics
+        WHERE CONSUMER_NAME LIKE CONCAT(CONCAT('%',#{consumerName}),'%')
+    </select>
+
+    <!--boss后台通过收人电话查询 -->
+    <select id="queryByTel" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from v_order_logistics
+        WHERE CONSUMER_MOBILE like CONCAT(CONCAT('%',#{consumerMobile}),'%')
+    </select>
+
+
+    <!--通过收件人姓名模糊查询  -->
+    <select id="queryLogisticsUserId" resultType="java.lang.Long" parameterType="java.lang.String">
+        SELECT
+         distinct  CREATER_ID
+        from v_order_logistics
+        WHERE CONSUMER_NAME LIKE CONCAT(CONCAT('%',#{consumerName}),'%')
+    </select>
+
+
+    <!--boss后台通过收人电话查询 -->
+    <select id="queryByTelUserId" resultType="java.lang.Long" parameterType="java.lang.String">
+         SELECT
+         distinct  CREATER_ID
+        from v_order_logistics
+        WHERE CONSUMER_MOBILE like CONCAT(CONCAT('%',#{consumerMobile}),'%')
+    </select>
+
+    <sql id="Query_Column">
+       DISTINCT CONSUMER_MOBILE,CONSUMER_NAME
+    </sql>
+
+    <select id="getUser" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Query_Column"/>
+        FROM v_order_logistics
+        <where>
+            <if test="consumerName != null  and consumerName != ''">
+                CONSUMER_NAME LIKE CONCAT('%',#{consumerName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="consumerMobile != null and consumerMobile != ''">
+                CONSUMER_MOBILE LIKE CONCAT('%',#{consumerMobile,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        LIMIT #{page},#{size}
+    </select>
+
+    <select id="getUserCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(DISTINCT CONSUMER_MOBILE)
+        FROM v_order_logistics
+        <where>
+            <if test="consumerName != null  and consumerName != ''">
+                CONSUMER_NAME like CONCAT('%',#{consumerName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="consumerMobile != null and consumerMobile != ''">
+                CONSUMER_MOBILE like CONCAT('%',#{consumerMobile,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

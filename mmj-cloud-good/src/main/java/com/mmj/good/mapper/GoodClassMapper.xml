@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.mapper.GoodClassMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.model.GoodClass">
+        <id column="CLASS_ID" property="classId" />
+        <result column="CLASS_CODE" property="classCode" />
+        <result column="CLASS_NAME" property="className" />
+        <result column="SHOW_NAME" property="showName" />
+        <result column="SHOW_IMAGE" property="showImage" />
+        <result column="SHOW_FLAG" property="showFlag" />
+        <result column="CLASS_ORDER" property="classOrder" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+    <resultMap id="BaseResultMapEx" extends="BaseResultMap" type="com.mmj.good.model.GoodClassEx">
+        <result column="IS_SHOW" property="isShow" />
+        <result column="LEVEL" property="level" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      CLASS_ID,CLASS_CODE,CLASS_NAME,SHOW_NAME,SHOW_IMAGE,SHOW_FLAG,CLASS_ORDER,DEL_FLAG,CREATER_ID,CREATER_TIME,MODIFY_ID,MODIFY_TIME
+    </sql>
+
+    <resultMap id="queryLevelMap" type="com.mmj.good.model.GoodClassEx" extends="BaseResultMapEx">
+        <association property="goodClassExes" column="{classCode=CLASS_CODE,isShow=IS_SHOW}" select="queryTwoGoodClassExes" />
+    </resultMap>
+
+    <select id="query" resultMap="queryLevelMap">
+        SELECT <include refid="Base_Column_List" />,1 'LEVEL'
+        <if test="isShow != null and isShow == 1">
+            ,1 'IS_SHOW'
+        </if>
+        <if test="isShow == null or isShow == 0">
+            ,null 'IS_SHOW'
+        </if>
+        FROM T_GOOD_CLASS
+        WHERE DEL_FLAG = 0
+        <if test="classCode != null">
+            AND CLASS_CODE = #{classCode}
+        </if>
+        <if test="classCode == null">
+            AND CLASS_CODE like '____'
+        </if>
+        <if test="noClassCode != null">
+            AND CLASS_CODE != #{noClassCode}
+        </if>
+        <if test="isShow != null and isShow == 1">
+            AND SHOW_FLAG = 1
+        </if>
+        ORDER BY CLASS_ORDER
+    </select>
+
+    <resultMap id="queryTwoGoodClassExesMap" type="com.mmj.good.model.GoodClassEx" extends="BaseResultMapEx">
+        <association property="goodClassExes" column="{classCode=CLASS_CODE,isShow=IS_SHOW}" select="queryThirdGoodClassExes" />
+        <association property="goodBanner" column="{classCode=CLASS_CODE}" select="queryGoodBanner" />
+    </resultMap>
+    <select id="queryTwoGoodClassExes" resultMap="queryTwoGoodClassExesMap">
+        SELECT <include refid="Base_Column_List" />,2 'LEVEL'
+        <if test="isShow != null and isShow == 1">
+            ,1 'IS_SHOW'
+        </if>
+        <if test="isShow == null or isShow == 0">
+            ,null 'IS_SHOW'
+        </if>
+        FROM T_GOOD_CLASS
+        WHERE DEL_FLAG = 0
+        <if test="classCode != null and classCode.length() == 4">
+            AND CLASS_CODE LIKE CONCAT(#{classCode},'__')
+            AND CLASS_CODE != #{classCode}
+        </if>
+        <if test="classCode != null and classCode.length() == 6">
+            AND CLASS_CODE = #{classCode}
+        </if>
+        <if test="classCode == null">
+            AND CLASS_CODE LIKE '______'
+            AND CLASS_CODE NOT LIKE '____'
+        </if>
+        <if test="isShow != null and isShow == 1">
+            AND SHOW_FLAG = 1
+        </if>
+        ORDER BY CLASS_ORDER
+    </select>
+
+    <select id="queryGoodBanner" resultType="com.mmj.good.model.GoodBanner">
+        SELECT <include refid="com.mmj.good.mapper.GoodBannerMapper.Base_Column_List" />
+        FROM T_GOOD_BANNER
+        WHERE SHOW_FLAG != -1
+        AND CLASS_CODE = #{classCode}
+    </select>
+
+    <select id="queryThirdGoodClassExes" resultMap="BaseResultMapEx">
+        SELECT <include refid="Base_Column_List" />,3 'LEVEL'
+        <if test="isShow != null and isShow == 1">
+            ,1 'IS_SHOW'
+        </if>
+        <if test="isShow == null or isShow == 0">
+            ,null 'IS_SHOW'
+        </if>
+        FROM T_GOOD_CLASS
+        WHERE DEL_FLAG = 0
+        <if test="classCode != null and classCode.length() == 6">
+            AND CLASS_CODE LIKE CONCAT(${classCode},'__')
+            AND CLASS_CODE != ${classCode}
+        </if>
+        <if test="classCode != null and classCode.length() == 8">
+            AND CLASS_CODE = #{classCode}
+        </if>
+        <if test="classCode == null">
+            AND CLASS_CODE LIKE '________'
+            AND CLASS_CODE NOT LIKE '______'
+        </if>
+        <if test="isShow != null and isShow == 1">
+            AND SHOW_FLAG = 1
+        </if>
+        ORDER BY CLASS_ORDER
+    </select>
+
+
+</mapper>

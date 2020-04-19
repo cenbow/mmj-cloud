@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.manager.mapper.CutUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.manager.model.CutUser">
+        <id column="LOG_ID" property="logId" />
+        <result column="USER_ID" property="userId" />
+        <result column="SPONSOR_ID" property="sponsorId" />
+        <result column="CUT_NO" property="cutNo" />
+        <result column="CUT_ID" property="cutId" />
+        <result column="CUT_MEMBER" property="cutMember" />
+        <result column="CUT_TIME" property="cutTime" />
+        <result column="CUT_AMOUNT" property="cutAmount" />
+        <result column="REWARD_AMOUNT" property="rewardAmount" />
+        <result column="SURPLUS_AMOUNT" property="surplusAmount" />
+        <result column="CUT_FLAG" property="cutFlag" />
+    </resultMap>
+
+    <sql id="Base_Column_ALL">
+        LOG_ID,USER_ID,SPONSOR_ID,CUT_NO,CUT_ID,CUT_MEMBER,CUT_TIME,CUT_AMOUNT,REWARD_AMOUNT,SURPLUS_AMOUNT,CUT_FLAG
+    </sql>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="com.mmj.user.manager.model.CutUser">
+        SELECT
+        <include refid="Base_Column_ALL" />
+        FROM
+        (
+        SELECT
+        <include refid="Base_Column_ALL" />
+        FROM
+        t_cut_user
+        WHERE
+        USER_ID = #{userId}
+        ORDER BY
+        LOG_ID DESC
+        LIMIT 10000
+        ) cu
+        GROUP BY
+        cu.CUT_NO
+        ORDER BY
+        cu.LOG_ID DESC;
+    </select>
+
+</mapper>

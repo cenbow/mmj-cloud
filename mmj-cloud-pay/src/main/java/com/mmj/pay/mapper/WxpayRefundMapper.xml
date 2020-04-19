@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.pay.mapper.WxpayRefundMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.pay.model.WxpayRefund">
+        <id column="ID" property="id" />
+        <result column="APPID" property="appid" />
+        <result column="TRANSACTION_ID" property="transactionId" />
+        <result column="OUT_TRADE_NO" property="outTradeNo" />
+        <result column="OUT_REFUND_NO" property="outRefundNo" />
+        <result column="TOTAL_FEE" property="totalFee" />
+        <result column="REFUND_FEE" property="refundFee" />
+        <result column="REFUND_DESC" property="refundDesc" />
+        <result column="STATE" property="state" />
+        <result column="ERROR_DESC" property="errorDesc" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.topic.mapper.TopicComponentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.topic.model.TopicComponent">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="topic_id" property="topicId" />
+        <result column="jump_type" property="jumpType" />
+        <result column="jump_url1" property="jumpUrl1" />
+        <result column="jump_url2" property="jumpUrl2" />
+        <result column="jump_url3" property="jumpUrl3" />
+        <result column="sort_num" property="sortNum" />
+        <result column="user_type" property="userType" />
+        <result column="image1" property="image1" />
+        <result column="image2" property="image2" />
+        <result column="image3" property="image3" />
+        <result column="coupon_name" property="couponName" />
+        <result column="coupon_id1" property="couponId1" />
+        <result column="coupon_id2" property="couponId2" />
+        <result column="coupon_id3" property="couponId3" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+</mapper>

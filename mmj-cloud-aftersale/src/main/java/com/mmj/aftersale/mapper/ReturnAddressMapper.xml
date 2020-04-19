@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.aftersale.mapper.ReturnAddressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.aftersale.model.ReturnAddress">
+        <id column="ADDRESS_ID" property="addressId" />
+        <result column="ADDRESS_NAME" property="addressName" />
+        <result column="AREA_CODE" property="areaCode" />
+        <result column="ADDR_DETAIL" property="addrDetail" />
+        <result column="USER_MOBILE" property="userMobile" />
+        <result column="CHECK_NAME" property="checkName" />
+        <result column="DEFAULT_FLAG" property="defaultFlag" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+</mapper>

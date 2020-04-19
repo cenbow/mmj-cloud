@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.cut.mapper.CutInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.cut.model.CutInfo">
+        <id column="CUT_ID" property="cutId" />
+        <result column="CUT_NAME" property="cutName" />
+        <result column="BASE_PRICE" property="basePrice" />
+        <result column="FRIST_CUT_TYPE" property="fristCutType" />
+        <result column="FRIST_CUT_START" property="fristCutStart" />
+        <result column="FRIST_CUT_END" property="fristCutEnd" />
+        <result column="NEW_FRIST_RATE" property="newFristRate" />
+        <result column="NEW_FRIST_TIMES" property="newFristTimes" />
+        <result column="NEW_SECOND_RATE" property="newSecondRate" />
+        <result column="NEW_SECOND_TIMES" property="newSecondTimes" />
+        <result column="NEW_THIRD_RATE" property="newThirdRate" />
+        <result column="NEW_THIRD_TIMES" property="newThirdTimes" />
+        <result column="OLD_FRIST_RATE" property="oldFristRate" />
+        <result column="OLD_FRIST_TIMES" property="oldFristTimes" />
+        <result column="OLD_SECOND_RATE" property="oldSecondRate" />
+        <result column="OLD_SECOND_TIMES" property="oldSecondTimes" />
+        <result column="OLD_THIRD_RATE" property="oldThirdRate" />
+        <result column="OLD_THIRD_TIMES" property="oldThirdTimes" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+</mapper>

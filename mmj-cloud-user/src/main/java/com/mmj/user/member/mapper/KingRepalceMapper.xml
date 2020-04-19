@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.member.mapper.KingRepalceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.member.model.KingRepalce">
+        <id column="ID" property="id" />
+        <result column="KING_NUM" property="kingNum" />
+        <result column="TYPE" property="type" />
+        <result column="BUSINESS_ID" property="businessId" />
+        <result column="AMOUNT" property="amount" />
+        <result column="NAME" property="name" />
+        <result column="IMAGE" property="image" />
+        <result column="CREATE_ID" property="createId" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+</mapper>

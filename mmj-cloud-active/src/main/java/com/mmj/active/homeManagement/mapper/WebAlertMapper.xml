@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.homeManagement.mapper.WebAlertMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.homeManagement.model.WebAlert">
+        <id column="ALERT_ID" property="alertId" />
+        <result column="ALERT_NAME" property="alertName" />
+        <result column="ALERT_TYPE" property="alertType" />
+        <result column="SHOW_NEW" property="showNew" />
+        <result column="SHOW_OLD" property="showOld" />
+        <result column="SHOW_MEMBER" property="showMember" />
+        <result column="WEB_IMAGE" property="webImage" />
+        <result column="ALERT_IMAGE" property="alertImage" />
+        <result column="HRAF_TYPE" property="hrafType" />
+        <result column="HRAF_URL" property="hrafUrl" />
+        <result column="ALERT_STATUS" property="alertStatus" />
+        <result column="ALERT_LENGTH" property="alertLength" />
+        <result column="ALERT_WIDE" property="alertWide" />
+        <result column="ALERT_MODEL" property="alertModel" />
+        <result column="ALERT_ORDER" property="alertOrder" />
+        <result column="COUPON_ID" property="couponId" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="TIME_LONG" property="timeLong" />
+        <result column="ALERT_DESC" property="alertDesc" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+</mapper>

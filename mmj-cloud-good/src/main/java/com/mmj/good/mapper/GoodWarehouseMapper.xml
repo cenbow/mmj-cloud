@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.mapper.GoodWarehouseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.model.GoodWarehouse">
+        <id column="WAREHOUSE_ID" property="warehouseId" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="SALE_ID" property="saleId" />
+        <result column="GOOD_SKU" property="goodSku" />
+        <result column="WAREHOUSE_NAME" property="warehouseName" />
+        <result column="WAREHOUSE_NUM" property="warehouseNum" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+    <sql id="Order_Column_List">
+        WAREHOUSE_ID warehouseId,GOOD_ID goodId,SALE_ID saleId,GOOD_SKU goodSku,WAREHOUSE_NAME warehouseName,WAREHOUSE_NUM warehouseNum,CREATER_ID createrId,CREATER_TIME createrTime
+    </sql>
+
+</mapper>

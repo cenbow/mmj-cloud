@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.cut.mapper.CutAwardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.cut.model.CutAward">
+        <id column="AWARD_ID" property="awardId" />
+        <result column="CUT_ID" property="cutId" />
+        <result column="FRIST_CUT_RATE" property="fristCutRate" />
+        <result column="AWARD_RATE" property="awardRate" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.grouplottery.mapper.LotteryBannerConfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.grouplottery.model.LotteryBannerConf">
+        <id column="ID" property="id" />
+        <result column="BANNER_URL" property="bannerUrl" />
+        <result column="BANNER_HRAF" property="bannerHraf" />
+    </resultMap>
+
+    <delete id="delAll">
+        DELETE FROM t_lottery_banner_conf
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.mmj.active.grouplottery.model.LotteryBannerConf">
+        insert into t_lottery_banner_conf
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bannerUrl != null">
+                BANNER_URL,
+            </if>
+            <if test="bannerHraf != null">
+                BANNER_HRAF,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bannerUrl != null">
+                #{bannerUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerHraf != null">
+                #{bannerHraf,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+</mapper>

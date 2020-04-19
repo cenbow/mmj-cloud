@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.mapper.GoodBannerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.model.GoodBanner">
+        <id column="BANNER_ID" property="bannerId" />
+        <result column="BANNER_NAME" property="bannerName" />
+        <result column="CLASS_CODE" property="classCode" />
+        <result column="BIG_FILE_URL" property="bigFileUrl" />
+        <result column="SMALL_FILE_URL" property="smallFileUrl" />
+        <result column="BIG_HRAF_URL" property="bigHrafUrl" />
+        <result column="SMALL_HRAF_URL" property="smallHrafUrl" />
+        <result column="SHOW_FLAG" property="showFlag" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+    <resultMap id="queryResultMap" type="com.mmj.good.model.GoodBannerEx" extends="BaseResultMap">
+        <result column="CLASS_NAME" property="className" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      BANNER_ID bannerId,BANNER_NAME bannerName,CLASS_CODE classCode,BIG_FILE_URL bigFileUrl,SMALL_FILE_URL smallFileUrl,BIG_HRAF_URL bigHrafUrl,SMALL_HRAF_URL smallHrafUrl,SHOW_FLAG showFlag,CREATER_ID createrId,CREATER_TIME createrTime
+    </sql>
+
+    <select id="queryListByClassCode" resultMap="queryResultMap" parameterType="com.mmj.good.model.GoodBannerEx">
+        select
+          gb.*, gc.CLASS_NAME
+        from t_good_banner gb left join t_good_class gc on gb.class_code = gc.class_code
+        where gb.SHOW_FLAG != -1
+            <if test="classCode != null">
+                <if test="classCode.length() == 4">
+                    and gb.class_code like CONCAT(${classCode},'__')
+                </if>
+                <if test="classCode.length() == 6">
+                    and gb.class_code = ${classCode}
+                </if>
+            </if>
+            <if test="bannerId != null">
+                and gb.banner_id = #{bannerId}
+            </if>
+    </select>
+
+</mapper>

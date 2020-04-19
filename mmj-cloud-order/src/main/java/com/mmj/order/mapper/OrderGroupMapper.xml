@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.order.mapper.OrderGroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.order.model.OrderGroup">
+        <id column="GROUP_ID" property="groupId" />
+        <result column="GROUP_NO" property="groupNo" />
+        <result column="GROUP_TYPE" property="groupType" />
+        <result column="GROUP_STATUS" property="groupStatus" />
+        <result column="BUSINESS_ID" property="businessId" />
+        <result column="GROUP_PEOPLE" property="groupPeople" />
+        <result column="CURRENT_PEOPLE" property="currentPeople" />
+        <result column="LAUNCH_ORDER_NO" property="launchOrderNo" />
+        <result column="LAUNCH_USER_ID" property="launchUserId" />
+        <result column="EXPIRE_DATE" property="expireDate" />
+        <result column="GROUP_DESC" property="groupDesc" />
+        <result column="DELETE_FLAG" property="deleteFlag" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        GROUP_ID,GROUP_NO,GROUP_TYPE,GROUP_STATUS,BUSINESS_ID,GROUP_PEOPLE,CURRENT_PEOPLE,LAUNCH_ORDER_NO,
+        LAUNCH_USER_ID,EXPIRE_DATE,PASSING_DATA,GROUP_DESC,DELETE_FLAG,CREATER_ID,CREATER_TIME,MODIFY_ID,MODIFY_TIME
+    </sql>
+
+    <select id="getByGroupFromView" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM v_order_group
+        <where>
+            <if test="groupNo != null ">
+                and GROUP_NO = #{groupNo,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null ">
+                and LAUNCH_ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+    <select id="getCompletedGroupCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM v_order_group
+        <where>
+            <if test="businessId != null ">
+                and BUSINESS_ID = #{businessId,jdbcType=INTEGER}
+            </if>
+            <if test="groupStatus != null">
+                and GROUP_STATUS = #{groupStatus,jdbcType=INTEGER}
+            </if>
+            <if test="groupType != null">
+                and GROUP_TYPE = #{groupType,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="getCompletedGroupList" resultType="com.mmj.order.model.OrderGroup">
+        SELECT * FROM v_order_group
+        <where>
+            <if test="businessId != null ">
+                and BUSINESS_ID = #{businessId,jdbcType=INTEGER}
+            </if>
+            <if test="groupStatus != null">
+                and GROUP_STATUS = #{groupStatus,jdbcType=INTEGER}
+            </if>
+            <if test="groupType != null">
+                and GROUP_TYPE = #{groupType,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectFullGroupCount" resultType="java.lang.Integer">
+        select
+        count(*)
+        from t_order_group
+        <where>
+            <if test="businessId != null ">
+                and BUSINESS_ID = #{businessId}
+            </if>
+            <if test="groupStatus != null">
+                and GROUP_STATUS = #{groupStatus}
+            </if>
+        </where>
+    </select>
+</mapper>

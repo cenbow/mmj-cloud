@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.pay.mapper.WxpayRedpackMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.pay.model.WxpayRedpack">
+        <id column="ID" property="id" />
+        <result column="MCH_BILLNO" property="mchBillno" />
+        <result column="MCH_ID" property="mchId" />
+        <result column="WXAPPID" property="wxappid" />
+        <result column="SEND_NAME" property="sendName" />
+        <result column="RE_OPENID" property="reOpenid" />
+        <result column="TOTAL_AMOUNT" property="totalAmount" />
+        <result column="TOTAL_NUM" property="totalNum" />
+        <result column="WISHING" property="wishing" />
+        <result column="CLIENT_IP" property="clientIp" />
+        <result column="ACT_NAME" property="actName" />
+        <result column="REMARK" property="remark" />
+        <result column="STATE" property="state" />
+        <result column="ERROR_DESC" property="errorDesc" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+</mapper>

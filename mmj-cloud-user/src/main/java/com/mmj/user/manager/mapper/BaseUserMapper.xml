@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.user.manager.mapper.BaseUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.user.manager.model.BaseUser">
+        <id column="USER_ID" property="userId" />
+        <result column="OPEN_ID" property="openId" />
+        <result column="USER_FULL_NAME" property="userFullName" />
+        <result column="USER_STATUS" property="userStatus" />
+        <result column="USER_SEX" property="userSex" />
+        <result column="IMAGES_URL" property="imagesUrl" />
+        <result column="USER_SALT" property="userSalt" />
+        <result column="USER_PASSWORD" property="userPassword" />
+        <result column="USER_CHANNEL" property="userChannel" />
+        <result column="USER_SOURCE" property="userSource" />
+        <result column="USER_COUNTRY" property="userCountry" />
+        <result column="USER_PROVINCE" property="userProvince" />
+        <result column="USER_CITY" property="userCity" />
+        <result column="USER_AREA" property="userArea" />
+        <result column="UNION_ID" property="unionId" />
+        <result column="USER_MOBILE" property="userMobile" />
+        <result column="ATTENTION_TIME" property="attentionTime" />
+        <result column="USER_FROM" property="userFrom" />
+        <result column="SUBSCRIBE" property="subscribe" />
+        <result column="SUBSCRIBE_TIME" property="subscribeTime" />
+        <result column="SUBSCRIBE_SCENE" property="subscribeScene" />
+        <result column="QR_SCENE_STR" property="qrSceneStr" />
+        <result column="TAGID_LIST" property="tagidList" />
+        <result column="TAG_NAME" property="tagName" />
+        <result column="GROUPID" property="groupid" />
+        <result column="QR_SCENE" property="qrScene" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+    <select id="getBaseUserByUserFullNameLike" resultMap="BaseResultMap">
+    	<!-- SELECT * FROM v_base_user v WHERE v.`USER_STATUS` != -1
+    	<if test="searchType != null &amp; searchType == 'BOSS'">
+   			AND v.USER_PASSWORD IS NOT NULL
+   		</if>
+   		<if test="userFullName != null">
+   		    AND v.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   		</if> -->
+   		SELECT t0.USER_ID, t0.OPEN_ID, t0.USER_FULL_NAME, t0.IMAGES_URL FROM t_base_user_0 t0 
+   		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t0.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t0.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t0.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where>
+		UNION ALL
+		SELECT t1.USER_ID, t1.OPEN_ID, t1.USER_FULL_NAME, t1.IMAGES_URL FROM t_base_user_1 t1 
+		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t1.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t1.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t1.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where>
+		UNION ALL
+		SELECT t2.USER_ID, t2.OPEN_ID, t2.USER_FULL_NAME, t2.IMAGES_URL FROM t_base_user_2 t2 
+		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t2.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t2.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t2.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where>
+		UNION ALL
+		SELECT t3.USER_ID, t3.OPEN_ID, t3.USER_FULL_NAME, t3.IMAGES_URL FROM t_base_user_3 t3 
+		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t3.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t3.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t3.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where>
+		UNION ALL
+		SELECT t4.USER_ID, t4.OPEN_ID, t4.USER_FULL_NAME, t4.IMAGES_URL FROM t_base_user_4 t4
+		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t4.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t4.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t4.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where> 
+		UNION ALL
+		SELECT t5.USER_ID, t5.OPEN_ID, t5.USER_FULL_NAME, t5.IMAGES_URL FROM t_base_user_5 t5 
+		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t5.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t5.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t5.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where>
+		UNION ALL
+		SELECT t6.USER_ID, t6.OPEN_ID, t6.USER_FULL_NAME, t6.IMAGES_URL FROM t_base_user_6 t6 
+		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t6.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t6.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t6.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where>
+		UNION ALL
+		SELECT t7.USER_ID, t7.OPEN_ID, t7.USER_FULL_NAME, t7.IMAGES_URL FROM t_base_user_7 t7 
+		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t7.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t7.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t7.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where>
+		UNION ALL
+		SELECT t8.USER_ID, t8.OPEN_ID, t8.USER_FULL_NAME, t8.IMAGES_URL FROM t_base_user_8 t8 
+		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t8.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t8.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t8.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where>
+		UNION ALL
+		SELECT t9.USER_ID, t9.OPEN_ID, t9.USER_FULL_NAME, t9.IMAGES_URL FROM t_base_user_9 t9 
+		<where>
+   			<if test="searchType != null &amp; searchType == 'BOSS'">
+   				AND t9.`USER_SOURCE` = 'BOSS' 
+   			</if>
+   			<if test="searchType != null &amp; searchType == 'WECHAT'">
+   				AND t9.`USER_STATUS` = 1 
+   			</if>
+   			<if test="userFullName != null">
+   		    	AND t9.USER_FULL_NAME like CONCAT(CONCAT(#{userFullName,jdbcType=VARCHAR},'%'))
+   			</if>
+   		</where>
+    </select>
+    
+    <select id="getChannelUsers" parameterType="com.mmj.common.model.ChannelUserParam" resultType="com.mmj.common.model.ChannelUserVO">
+    	SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_0 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_1 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_2 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_3 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_4 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_5 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_6 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_7 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_8 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT t.`USER_ID`, t.`OPEN_ID`, t.`UNION_ID`, DATE_FORMAT(t.`CREATER_TIME`,'%x-%m-%d') createTime, t.`USER_CHANNEL`, IF(t.`UNION_ID` IS NOT NULL AND t.`UNION_ID` != 'null' AND t.`UNION_ID` != '' , '是','否') AS authorized 
+			FROM t_base_user_9 t WHERE t.`USER_STATUS` = 1 AND t.`USER_CHANNEL` = #{channel,jdbcType=VARCHAR}
+				AND t.`CREATER_TIME` <![CDATA[>=]]> #{startTime, jdbcType=VARCHAR} AND t.`CREATER_TIME` <![CDATA[<=]]> #{endTime, jdbcType=VARCHAR}
+    </select>
+
+</mapper>

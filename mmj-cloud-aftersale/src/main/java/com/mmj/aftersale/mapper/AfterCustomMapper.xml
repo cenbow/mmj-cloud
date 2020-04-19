@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.aftersale.mapper.AfterCustomMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.aftersale.model.AfterCustom">
+        <id column="CUSTOM_ID" property="customId" />
+        <result column="AFTER_SALE_NO" property="afterSaleNo" />
+        <result column="ORDER_NO" property="orderNo" />
+        <result column="CUSTOM_TYPE" property="customType" />
+        <result column="CUSTOM_REMARK" property="customRemark" />
+        <result column="USER_REMARK" property="userRemark" />
+        <result column="DEL_FLAG" property="delFlag" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.oauth.mapper.UserLoginInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.oauth.model.UserLoginInfo">
+        <id column="LOGIN_ID" property="loginId" />
+        <result column="USER_NAME" property="userName" />
+        <result column="LOGIN_TYPE" property="loginType" />
+        <result column="USER_ID" property="userId" />
+        <result column="APP_ID" property="appId" />
+    </resultMap>
+
+</mapper>

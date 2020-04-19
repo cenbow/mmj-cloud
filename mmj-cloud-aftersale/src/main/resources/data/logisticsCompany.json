@@ -1,0 +1,66 @@
+﻿[
+  {
+    "logisticsCompany": "天天快递",
+    "lcCode": "tiantian"
+  },
+  {
+    "logisticsCompany": "跨越速运",
+    "lcCode": "kuayue"
+  },
+  {
+    "logisticsCompany": "EMS",
+    "lcCode": "ems"
+  },
+  {
+    "logisticsCompany": "申通快递",
+    "lcCode": "shentong"
+  },
+  {
+    "logisticsCompany": "优优速递",
+    "lcCode": "youyou"
+  },
+  {
+    "logisticsCompany": "增益速递",
+    "lcCode": "zengyisudi"
+  },
+  {
+    "logisticsCompany": "顺丰速运",
+    "lcCode": "shunfeng"
+  },
+  {
+    "logisticsCompany": "全峰快递",
+    "lcCode": "quanfengkuaidi"
+  },
+  {
+    "logisticsCompany": "安能快递",
+    "lcCode": "ane66"
+  },
+  {
+    "logisticsCompany": "中通快递",
+    "lcCode": "zhongtong"
+  },
+  {
+    "logisticsCompany": "国通快递",
+    "lcCode": "guotongkuaidi"
+  },
+  {
+    "logisticsCompany": "德邦快递",
+    "lcCode": "debangwuliu"
+  },
+  {
+    "logisticsCompany": "韵达快递",
+    "lcCode": "yunda"
+  },
+  {
+    "logisticsCompany": "百世快递",
+    "lcCode": "huitongkuaidi"
+  },
+  {
+    "logisticsCompany": "圆通速递",
+    "lcCode": "yuantong"
+  },
+  {
+    "logisticsCompany": "宅急送",
+    "lcCode": "zhaijisong"
+  }
+]

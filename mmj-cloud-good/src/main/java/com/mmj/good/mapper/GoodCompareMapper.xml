@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.mapper.GoodCompareMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.model.GoodCompare">
+        <id column="COMPARE_ID" property="compareId" />
+        <result column="STATUS" property="status" />
+        <result column="SHOW_TYPE" property="showType" />
+        <result column="COMPARE_TYPE" property="compareType" />
+        <result column="TITLE" property="title" />
+        <result column="IMAGE" property="image" />
+        <result column="URL" property="url" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+</mapper>

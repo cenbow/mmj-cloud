@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.homeManagement.mapper.WebShowMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.homeManagement.model.WebShow">
+        <id column="SHOW_ID" property="showId" />
+        <result column="CLASS_CODE" property="classCode" />
+        <result column="SHOW_FLAG" property="showFlag" />
+        <result column="TOP_SHOW" property="topShow" />
+        <result column="MAKETING_SHOW" property="maketingShow" />
+        <result column="SHOWCASE_SHOW" property="showcaseShow" />
+        <result column="WXSHARD_SHOW" property="wxshardShow" />
+        <result column="GODD_ORDER" property="goddOrder" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+    </resultMap>
+
+    <select id="selectGoodClass" resultType="com.mmj.active.homeManagement.model.GoodClassEx">
+       SELECT
+    ws.SHOW_ID showId,
+	ws.SHOW_FLAG showFlag,
+	ws.TOP_SHOW topShow,
+	ws.MAKETING_SHOW maketingShow,
+	ws.SHOWCASE_SHOW showcaseShow,
+	ws.WXSHARD_SHOW wxshardShow,
+	ws.GODD_ORDER goddOrder,
+	gs.CLASS_ID classId,
+	gs.CLASS_CODE classCode,
+	gs.CLASS_NAME className
+    FROM
+        t_web_show ws
+    LEFT JOIN t_good_class gs ON ws.CLASS_CODE = gs.CLASS_CODE
+    ORDER BY gs.CLASS_ORDER
+    </select>
+
+
+</mapper>

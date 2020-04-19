@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.common.mapper.WatermarkConfigureMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.common.model.WatermarkConfigure">
+        <result column="ID" property="id" />
+        <result column="TYPE" property="type" />
+        <result column="TOP" property="top" />
+        <result column="LEFTS" property="lefts" />
+        <result column="WIDTH" property="width" />
+        <result column="HEIGHT" property="height" />
+        <result column="URL" property="url" />
+        <result column="CLASSIFY" property="classify" />
+        <result column="BACKGROUND" property="background" />
+        <result column="CONTENT" property="content" />
+        <result column="FONT_SIZE" property="fontSize" />
+        <result column="COLOR" property="color" />
+        <result column="TEXT_ALIGN" property="textAlign" />
+        <result column="BREAK_WORD" property="breakWord" />
+        <result column="MAX_LINE_NUMBER" property="maxLineNumber" />
+        <result column="TEXT_WIDTH" property="textWidth" />
+        <result column="TEXT_DECORATION" property="textDecoration" />
+        <result column="LINE_HEIGHT" property="lineHeight" />
+        <result column="PARAMETER_TYPE" property="parameterType" />
+    </resultMap>
+
+</mapper>

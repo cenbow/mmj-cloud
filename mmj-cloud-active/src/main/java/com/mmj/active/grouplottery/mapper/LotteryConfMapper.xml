@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.grouplottery.mapper.LotteryConfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.grouplottery.model.LotteryConf">
+        <id column="LOTTERY_ID" property="lotteryId"/>
+        <result column="LOTTERY_NAME" property="lotteryName"/>
+        <result column="START_TIME" property="startTime"/>
+        <result column="END_TIME" property="endTime"/>
+        <result column="OPEN_TIME" property="openTime"/>
+        <result column="SHARD_TITLE" property="shardTitle"/>
+        <result column="SHARD_IMAGE" property="shardImage"/>
+        <result column="MAX_EVERYONE" property="maxEveryone"/>
+        <result column="NEED_OPNE_NUM" property="needOpneNum"/>
+        <result column="LOTTERY_CODE_START" property="lotteryCodeStart"/>
+        <result column="LOTTERY_CODE_END" property="lotteryCodeEnd"/>
+        <result column="TZ_ROND_HB" property="tzRondHb"/>
+        <result column="HB_START" property="hbStart"/>
+        <result column="HB_END" property="hbEnd"/>
+        <result column="TUAN_BUILD_NUM" property="tuanBuildNum"/>
+        <result column="OPEN_TYPE" property="openType"/>
+        <result column="SHOW_FLAG" property="showFlag"/>
+        <result column="LOTTERY_RULE" property="lotteryRule"/>
+        <result column="BANNER_URL" property="bannerUrl"/>
+        <result column="BANNER_HRAF" property="bannerHraf"/>
+        <result column="OPEN_FLAG" property="openFlag"/>
+        <result column="CHECK_CODE" property="checkCode"/>
+        <result column="OPEN_DETAIL" property="openDetail"/>
+        <result column="CHECK_MAN" property="checkMan"/>
+        <result column="COUPON_ID" property="couponId"/>
+        <result column="CREATER_ID" property="createrId"/>
+        <result column="CREATER_TIME" property="createrTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      LOTTERY_ID,LOTTERY_NAME,START_TIME,END_TIME,OPEN_TIME,SHARD_TITLE,SHARD_IMAGE,MAX_EVERYONE,
+      NEED_OPNE_NUM,LOTTERY_CODE_START,LOTTERY_CODE_END,TZ_ROND_HB,HB_START,HB_END,TUAN_BUILD_NUM,
+      OPEN_TYPE,SHOW_FLAG,LOTTERY_RULE,OPEN_FLAG,CHECK_CODE,OPEN_DETAIL,CHECK_MAN,ORDER_NO,COUPON_ID,
+      CREATER_ID,CREATER_TIME
+    </sql>
+
+    <select id="getLotteryGoodsNow" resultType="Map">
+        SELECT
+        c.LOTTERY_ID AS lotteryId,
+        c.LOTTERY_NAME AS lotteryName,
+        c.OPEN_TIME AS openTime,
+        timestampdiff(HOUR, now(), c.END_TIME) AS countdowntime,
+        g.GOOD_ID AS goodId,
+        c.TZ_ROND_HB AS hasRedpacket,
+	    g.BASE_PRICE AS lineprice,
+	    ROUND(g.BASE_PRICE / 100, 2) AS lineamount,
+	    c.SHOW_FLAG AS isShow,
+	    g.GOOD_IMAGE AS mainPic,
+	    g.GOOD_NAME AS goodName,
+	    g.ACTIVE_PRICE  AS price,
+	    ROUND(g.ACTIVE_PRICE / 100, 2) AS amount
+        FROM
+            t_lottery_conf c
+        LEFT JOIN t_active_good g ON c.LOTTERY_ID = g.BUSINESS_ID
+        AND ACTIVE_TYPE = 1
+        WHERE
+            NOW() >= c.START_TIME
+        AND c.END_TIME > NOW()
+        AND c.SHOW_FLAG = 1
+        AND c.OPEN_FLAG = 0
+        AND g.GOOD_ID IS NOT NULL
+        GROUP BY g.GOOD_ID,c.LOTTERY_ID
+        ORDER BY
+            countdowntime ASC
+        LIMIT #{lotteryStart},#{lotterySize}
+  </select>
+
+    <select id="getLotteryGoodsNowCnt" resultType="int">
+        SELECT
+        count(*)
+        FROM
+            t_lottery_conf c
+        WHERE
+        NOW() >= c.START_TIME
+        AND c.END_TIME > NOW()
+        AND c.SHOW_FLAG = 1
+        AND c.OPEN_FLAG = 0
+  </select>
+
+    <select id="selectActiveGood" resultType="int">
+      SELECT BUSINESS_ID FROM t_active_good WHERE ACTIVE_TYPE = 1 AND GOOD_NAME LIKE
+      CONCAT("%",#{goodsName,jdbcType=VARCHAR},"%")
+  </select>
+
+
+    <select id="getByBusId" resultType="com.mmj.active.common.model.ActiveGood">
+        SELECT
+        <include refid="com.mmj.active.common.mapper.ActiveGoodMapper.Base_Column_List"/>
+        FROM t_active_good WHERE ACTIVE_TYPE = 1 AND BUSINESS_ID = #{lotteryId} GROUP BY GOOD_SPU
+    </select>
+
+    <resultMap id="queryBaseMap" type="com.mmj.active.grouplottery.model.LotteryConf" extends="BaseResultMap">
+        <association property="activeGoodList" fetchType="eager" select="getByBusId" column="{lotteryId=LOTTERY_ID}"/>
+    </resultMap>
+
+    <select id="list" resultMap="queryBaseMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM t_lottery_conf WHERE 1 = 1
+        <if test="searchVo.lotteryActivityName != null ">
+            AND LOTTERY_NAME like CONCAT("%",#{searchVo.lotteryActivityName,jdbcType=VARCHAR},"%")
+        </if>
+        <if test="ids != null">
+            AND LOTTERY_ID IN
+            <foreach collection="ids" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="searchVo.isOpen != null ">
+            AND OPEN_FLAG = #{searchVo.isOpen,jdbcType=INTEGER}
+        </if>
+        <if test="searchVo.startTime != null ">
+            AND START_TIME > #{searchVo.startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="searchVo.endTime != null">
+            AND END_TIME <![CDATA[ < ]]> #{searchVo.endTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="searchVo.minOpentime != null ">
+            AND OPEN_TIME > #{searchVo.minOpentime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="searchVo.maxOpentime != null">
+            AND OPEN_TIME <![CDATA[ < ]]> #{searchVo.maxOpentime,jdbcType=TIMESTAMP}
+        </if>
+        order by LOTTERY_ID desc
+    </select>
+
+
+</mapper>

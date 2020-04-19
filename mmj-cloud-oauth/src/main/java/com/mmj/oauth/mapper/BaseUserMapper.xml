@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.oauth.mapper.BaseUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.common.model.BaseUser">
+        <id column="USER_ID" property="userId" />
+        <result column="OPEN_ID" property="openId" />
+        <result column="USER_FULL_NAME" property="userFullName" />
+        <result column="USER_STATUS" property="userStatus" />
+        <result column="USER_SEX" property="userSex" />
+        <result column="IMAGES_URL" property="imagesUrl" />
+        <result column="USER_SALT" property="userSalt" />
+        <result column="USER_PASSWORD" property="userPassword" />
+        <result column="USER_CHANNEL" property="userChannel" />
+        <result column="USER_SOURCE" property="userSource" />
+        <result column="USER_COUNTRY" property="userCountry" />
+        <result column="USER_PROVINCE" property="userProvince" />
+        <result column="USER_CITY" property="userCity" />
+        <result column="USER_AREA" property="userArea" />
+        <result column="UNION_ID" property="unionId" />
+        <result column="USER_MOBILE" property="userMobile" />
+        <result column="ATTENTION_TIME" property="attentionTime" />
+        <result column="USER_FROM" property="userFrom" />
+        <result column="SUBSCRIBE" property="subscribe" />
+        <result column="SUBSCRIBE_TIME" property="subscribeTime" />
+        <result column="SUBSCRIBE_SCENE" property="subscribeScene" />
+        <result column="QR_SCENE_STR" property="qrSceneStr" />
+        <result column="TAGID_LIST" property="tagidList" />
+        <result column="TAG_NAME" property="tagName" />
+        <result column="GROUPID" property="groupid" />
+        <result column="QR_SCENE" property="qrScene" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+    
+    <select id="getByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    	SELECT * FROM t_base_user_0 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM t_base_user_1 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM t_base_user_2 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM t_base_user_3 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM t_base_user_4 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM t_base_user_5 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM t_base_user_6 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM t_base_user_7 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM t_base_user_8 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM t_base_user_9 t WHERE t.`OPEN_ID` = #{openId, jdbcType=VARCHAR} LIMIT 1
+    </select>
+
+</mapper>

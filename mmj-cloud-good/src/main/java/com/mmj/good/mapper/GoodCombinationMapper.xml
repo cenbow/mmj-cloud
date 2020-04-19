@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.good.mapper.GoodCombinationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.good.model.GoodCombination">
+        <id column="COMBIN_ID" property="combinId" />
+        <result column="GOOD_ID" property="goodId" />
+        <result column="SALE_ID" property="saleId" />
+        <result column="GOOD_SPU" property="goodSpu" />
+        <result column="GOOD_SKU" property="goodSku" />
+        <result column="SUB_GOOD_ID" property="subGoodId" />
+        <result column="SUB_SALE_ID" property="subSaleId" />
+        <result column="SUB_GOOD_SKU" property="subGoodSku" />
+        <result column="SUB_GOOD_NUM" property="subGoodNum" />
+        <result column="PACKAGE_NUM" property="packageNum" />
+    </resultMap>
+
+</mapper>

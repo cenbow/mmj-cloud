@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.relayLottery.mapper.RelayInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.relayLottery.model.RelayInfo">
+        <id column="RELAY_ID" property="relayId" />
+        <result column="UNION_ID" property="unionId" />
+        <result column="PERIODS" property="periods" />
+        <result column="PERIOD" property="period" />
+        <result column="RELAY_NAME" property="relayName" />
+        <result column="FRIST_START_TIME" property="fristStartTime" />
+        <result column="FRIST_END_TIME" property="fristEndTime" />
+        <result column="START_TIME" property="startTime" />
+        <result column="END_TIME" property="endTime" />
+        <result column="PRIODS" property="priods" />
+        <result column="INTERVAL_TIME" property="intervalTime" />
+        <result column="ACTIVE_TIME" property="activeTime" />
+        <result column="SHOW_OPEN_NUM" property="showOpenNum" />
+        <result column="VIRTUAL_NUM" property="virtualNum" />
+        <result column="OPEN_NUM" property="openNum" />
+        <result column="RELAY_NUM" property="relayNum" />
+        <result column="RELAY_TYPE" property="relayType" />
+        <result column="RELAY_STATUS" property="relayStatus" />
+        <result column="OPEN_TIME" property="openTime" />
+        <result column="OPEN_FLAG" property="openFlag" />
+        <result column="CHECK_CODE" property="checkCode" />
+        <result column="CHECK_MAN" property="checkMan" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+    <resultMap id="queryRelayInfoBy" type="com.mmj.active.relayLottery.model.vo.RelayInfoVo" extends="BaseResultMap">
+        <id column="RELAY_ID" property="relayId" />
+        <result column="UNION_ID" property="unionId" />
+        <result column="PERIODS" property="periods" />
+        <result column="PERIOD" property="period" />
+        <result column="RELAY_NAME" property="relayName" />
+        <result column="FRIST_START_TIME" property="fristStartTime" />
+        <result column="FRIST_END_TIME" property="fristEndTime" />
+        <result column="PRIODS" property="priods" />
+        <result column="INTERVAL_TIME" property="intervalTime" />
+        <result column="ACTIVE_TIME" property="activeTime" />
+        <result column="VIRTUAL_NUM" property="virtualNum" />
+        <result column="OPEN_NUM" property="openNum" />
+        <result column="RELAY_NUM" property="relayNum" />
+        <result column="RELAY_TYPE" property="relayType" />
+        <result column="RELAY_STATUS" property="relayStatus" />
+        <result column="OPEN_TIME" property="openTime" />
+        <result column="OPEN_FLAG" property="openFlag" />
+        <result column="CHECK_CODE" property="checkCode" />
+        <result column="CHECK_MAN" property="checkMan" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+
+        <result column="goodImage" property="goodImage" />
+        <result column="goodId" property="goodId" />
+        <result column="goodName" property="goodName" />
+        <result column="saleId" property="saleId" />
+    </resultMap>
+
+
+    <select id="queryRelayInfoList" parameterType="com.mmj.active.relayLottery.model.vo.RelayInfoVo" resultMap="queryRelayInfoBy">
+      select
+      ri.`RELAY_ID`,ri.`PERIODS`,ri.`PERIOD`,ri.`RELAY_NAME`,ri.`FRIST_START_TIME`,ri.`FRIST_END_TIME`,ri.`INTERVAL_TIME`,ri.`ACTIVE_TIME`,
+      ri.`VIRTUAL_NUM`,ri.`RELAY_NUM`,ri.`OPEN_NUM`,ri.`RELAY_STATUS`,ri.`RELAY_TYPE`,ri.`OPEN_TIME`,ri.`OPEN_FLAG`,ri.`CHECK_CODE`,ri.`CHECK_MAN`,
+      ag.`GOOD_IMAGE` AS goodImage, ag.`GOOD_ID` AS goodId,ag.`GOOD_NAME` AS goodName,ag.`SALE_ID` AS saleId
+      FROM t_relay_info ri,t_active_good ag
+
+      WHERE ri.`RELAY_ID` = ag.`BUSINESS_ID` and ri.RELAY_STATUS >= 0 and ag.`ACTIVE_TYPE` = '3'
+        <if test="relayId != null ">
+          and RELAY_ID = #{relayId}
+        </if>
+        <if test="relayName != null ">
+          and RELAY_NAME LIKE CONCAT('%', #{relayName}, '%')
+        </if>
+        GROUP BY ri.`UNION_ID`
+    </select>
+
+</mapper>

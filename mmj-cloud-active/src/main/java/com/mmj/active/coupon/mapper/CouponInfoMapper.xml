@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.coupon.mapper.CouponInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.coupon.model.CouponInfo">
+        <id column="COUPON_ID" property="couponId"/>
+        <result column="MAKETING_DESC" property="maketingDesc"/>
+        <result column="COUPON_TITLE" property="couponTitle"/>
+        <result column="COUPON_MAIN" property="couponMain"/>
+        <result column="WHERE_TYPE" property="whereType"/>
+        <result column="WHERE_VALUE" property="whereValue"/>
+        <result column="COUPON_AMOUNT" property="couponAmount"/>
+        <result column="COUPON_VALUE" property="couponValue"/>
+        <result column="COUPON_SCOPE" property="couponScope"/>
+        <result column="COUPON_DESC" property="couponDesc"/>
+        <result column="COUNT_NUM" property="countNum"/>
+        <result column="EVERY_DAY_NUM" property="everyDayNum"/>
+        <result column="TOTAL_SEND_NUMBER" property="totalSendNumber"/>
+        <result column="APPLY_PRICE" property="applyPrice"/>
+        <result column="INDATE_TYPE" property="indateType"/>
+        <result column="COUPON_START" property="couponStart"/>
+        <result column="COUPON_END" property="couponEnd"/>
+        <result column="AFTER_DAY" property="afterDay"/>
+        <result column="AFTER_DATE" property="afterDate"/>
+        <result column="AFTER_TIME" property="afterTime"/>
+        <result column="AFTER_UNIT" property="afterUnit"/>
+        <result column="DISTANCE_TIME" property="distanceTime"/>
+        <result column="HRAF_TYPE" property="hrafType"/>
+        <result column="HRAF_ARG" property="hrafArg"/>
+        <result column="DEL_FLAG" property="delFlag"/>
+        <result column="DETAIL_SHOW" property="detailShow"/>
+        <result column="ACTIVE_FLAG" property="activeFlag"/>
+        <result column="MEMBER_FLAG" property="memberFlag"/>
+        <result column="CREATER_ID" property="createrId"/>
+        <result column="CREATER_TIME" property="createrTime"/>
+        <result column="MODIFY_ID" property="modifyId"/>
+        <result column="MODIFY_TIME" property="modifyTime"/>
+    </resultMap>
+
+    <update id="incrTotalSendNumber" parameterType="java.lang.Integer">
+        update t_coupon_info set TOTAL_SEND_NUMBER=TOTAL_SEND_NUMBER + 1 where COUPON_ID=#{couponId};
+    </update>
+
+</mapper>

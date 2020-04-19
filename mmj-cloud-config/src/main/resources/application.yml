@@ -1,0 +1,79 @@
+spring: 
+  profiles: dev
+  application:
+    name: mmj-cloud-config  
+  cloud:  
+    config:  
+      enabled: true  
+      label: dev
+      server:  
+        git:  
+          uri: http://192.168.1.44:8090/mmj/cloud.git
+          search-paths: mmj-config
+          username: luisliu
+          password: luisliu123456
+
+---
+spring: 
+  profiles: dev2
+  application:
+    name: mmj-cloud-config  
+  cloud:  
+    config:  
+      enabled: true  
+      label: dev
+      server:  
+        git:  
+          uri: http://192.168.1.44:8090/mmj/cloud.git
+          search-paths: mmj-config
+          username: luisliu
+          password: luisliu123456
+
+---
+spring: 
+  profiles: dev3
+  application:
+    name: mmj-cloud-config  
+  cloud:  
+    config:  
+      enabled: true  
+      label: dev
+      server:  
+        git:  
+          uri: http://192.168.1.44:8090/mmj/cloud.git
+          search-paths: mmj-config
+          username: luisliu
+          password: luisliu123456
+
+---
+spring: 
+  profiles: uat
+  application:
+    name: mmj-cloud-config  
+  cloud:  
+    config:  
+      enabled: true  
+      label: release
+      server:  
+        git:  
+          uri: http://121.40.83.80:8090/root/cloud.git
+          search-paths: mmj-config
+          username: opera
+          password: itqlns$217       
+         
+---
+spring:
+  profiles: pro
+  application:
+    name: mmj-cloud-config
+  cloud:  
+    config:  
+      enabled: true  
+      label: master
+      server:  
+        git:  
+          uri: http://121.40.83.80:8090/root/cloud.git
+          search-paths: mmj-config
+          username: opera
+          password: itqlns$217
+ 

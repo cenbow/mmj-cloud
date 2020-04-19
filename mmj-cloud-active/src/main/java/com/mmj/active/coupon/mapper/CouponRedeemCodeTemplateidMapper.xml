@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.coupon.mapper.CouponRedeemCodeTemplateidMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.coupon.model.CouponRedeemCodeTemplateid">
+        <id column="ID" property="id" />
+        <result column="BATCH_CODE" property="batchCode" />
+        <result column="COUPON_TEMPLATEID" property="couponTemplateid" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.accessRecord.mapper.AccessEquipmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.accessRecord.model.AccessEquipment">
+        <result column="user_id" property="userId" />
+        <result column="internet_type" property="internetType" />
+        <result column="brand" property="brand" />
+        <result column="model" property="model" />
+        <result column="version" property="version" />
+        <result column="system" property="system" />
+        <result column="sdk_version" property="sdkVersion" />
+        <result column="window_width" property="windowWidth" />
+        <result column="status_bar_height" property="statusBarHeight" />
+        <result column="language" property="language" />
+        <result column="screen_width" property="screenWidth" />
+        <result column="screen_height" property="screenHeight" />
+        <result column="pixel_ratio" property="pixelRatio" />
+        <result column="font_size_setting" property="fontSizeSetting" />
+        <result column="created_time" property="createdTime" />
+    </resultMap>
+
+</mapper>

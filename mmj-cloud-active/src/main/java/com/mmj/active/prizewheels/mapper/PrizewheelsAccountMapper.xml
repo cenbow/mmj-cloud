@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.prizewheels.mapper.PrizewheelsAccountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.prizewheels.model.PrizewheelsAccount">
+        <id column="USER_ID" property="userId" />
+        <result column="COINS_BALANCE" property="coinsBalance" />
+        <result column="REDPACKET_BALANCE" property="redpacketBalance" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="TEN_PRIZE" property="tenPrize" />
+    </resultMap>
+
+	<update id="updateUserId">
+  		UPDATE t_prizewheels_account SET USER_ID = #{newUserId,jdbcType=BIGINT} WHERE USER_ID = #{oldUserId,jdbcType=BIGINT}
+  	</update>
+</mapper>

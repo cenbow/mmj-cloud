@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.notice.mapper.WxBoxRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.notice.model.WxBoxRecord">
+        <id column="ID" property="id" />
+        <result column="OPENID" property="openid" />
+        <result column="NICK_NAME" property="nickName" />
+        <result column="HEAD_IMG" property="headImg" />
+        <result column="UNIONID" property="unionid" />
+        <result column="RED_CODE" property="redCode" />
+        <result column="OPEN_CODE" property="openCode" />
+        <result column="AMOUNT" property="amount" />
+        <result column="APP_ID" property="appId" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+</mapper>

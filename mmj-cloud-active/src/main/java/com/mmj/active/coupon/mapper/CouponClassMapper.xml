@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.coupon.mapper.CouponClassMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.coupon.model.CouponClass">
+        <id column="MAPPER_ID" property="mapperId" />
+        <result column="COUPON_ID" property="couponId" />
+        <result column="CLASS_ID" property="classId" />
+        <result column="GOOD_CLASS" property="goodClass" />
+        <result column="CLASS_NAME" property="className" />
+    </resultMap>
+
+</mapper>

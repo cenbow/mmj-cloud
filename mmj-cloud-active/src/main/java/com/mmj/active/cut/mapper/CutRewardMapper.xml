@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.cut.mapper.CutRewardMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.cut.model.CutReward">
+        <id column="REWARD_ID" property="rewardId"/>
+        <result column="REWARD_TYPE" property="rewardType"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="CUT_NO" property="cutNo"/>
+        <result column="CUT_ID" property="cutId"/>
+        <result column="REWARD_VALUE" property="rewardValue"/>
+        <result column="REWARD_VALUE_TYPE" property="rewardValueType"/>
+        <result column="RED_CODE" property="redCode" />
+        <result column="USE_FLAG" property="useFlag"/>
+        <result column="USE_TIME" property="useTime"/>
+        <result column="USE_CUT_NO" property="useCutNo"/>
+        <result column="DEL_FLAG" property="delFlag"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="EXPIRE_TIME" property="expireTime"/>
+    </resultMap>
+
+</mapper>

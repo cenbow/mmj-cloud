@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.topic.mapper.TopicInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.topic.model.TopicInfo">
+        <id column="TOPIC_ID" property="topicId" />
+        <result column="TOPIC_NAME" property="topicName" />
+        <result column="TOPIC_BANNER" property="topicBanner" />
+        <result column="ORDER_ID" property="orderId" />
+        <result column="SHARD_URL" property="shardUrl" />
+        <result column="SHARD_TITLE" property="shardTitle" />
+        <result column="TOPIC_TEMPLATE" property="topicTemplate" />
+        <result column="TOPIC_GOOD_TYPE" property="topicGoodType" />
+        <result column="TOPIC_GOOD_CLASS" property="topicGoodClass" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+    </resultMap>
+
+
+    <resultMap id="queryTopicPageBy" type="com.mmj.active.topic.model.dto.TopicInfoDto">
+        <id column="TOPIC_ID" property="topicId" />
+        <result column="TOPIC_NAME" property="topicName" />
+        <result column="TOPIC_BANNER" property="topicBanner" />
+        <result column="ORDER_ID" property="orderId" />
+        <result column="SHARD_URL" property="shardUrl" />
+        <result column="SHARD_TITLE" property="shardTitle" />
+        <result column="TOPIC_TEMPLATE" property="topicTemplate" />
+        <result column="TOPIC_GOOD_TYPE" property="topicGoodType" />
+        <result column="TOPIC_GOOD_CLASS" property="topicGoodClass" />
+        <result column="CREATER_ID" property="createrId" />
+        <result column="CREATER_TIME" property="createrTime" />
+        <result column="MODIFY_ID" property="modifyId" />
+        <result column="MODIFY_TIME" property="modifyTime" />
+
+        <result column="goodClass" property="goodClass" />
+        <result column="orderType" property="orderType" />
+        <result column="filterRule" property="filterRule" />
+        <result column="orderBy" property="orderBy" />
+    </resultMap>
+
+    <select id="queryTopicPage" parameterType="com.mmj.active.topic.model.dto.TopicInfoDto" resultMap="queryTopicPageBy">
+        select
+          TOPIC_ID,TOPIC_NAME,TOPIC_BANNER,ORDER_ID,SHARD_URL,SHARD_TITLE,TOPIC_TEMPLATE,ti.CREATER_ID,ti.CREATER_TIME,ti.MODIFY_ID,ti.MODIFY_TIME,ti.TOPIC_GOOD_TYPE,ti.TOPIC_GOOD_CLASS,
+          ao.GOOD_CLASS as goodClass,ao.ORDER_TYPE as orderType,ao.FILTER_RULE as filterRule,ao.ORDER_BY as orderBy
+        FROM t_topic_info ti
+        LEFT JOIN t_active_sort ao ON ti.TOPIC_ID = ao.BUSINESS_ID AND ao.ACTIVE_TYPE = 8
+        WHERE 1=1
+        <if test="topicId != null and topicId != 0 ">
+            and TOPIC_ID = #{topicId}
+        </if>
+        <if test="topicName != null and topicName != '' ">
+            and TOPIC_NAME LIKE CONCAT('%', #{topicName}, '%')
+        </if>
+        GROUP BY ti.`TOPIC_ID`
+        order BY ti.`CREATER_TIME`
+    </select>
+
+</mapper>

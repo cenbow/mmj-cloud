@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mmj.active.threeSaleTenner.mapper.ThreeSaleFissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mmj.active.threeSaleTenner.model.ThreeSaleFission">
+        <id column="FISSION_ID" property="fissionId" />
+        <result column="FROM_OPENID" property="fromOpenid" />
+        <result column="FROM_USERID" property="fromUserid" />
+        <result column="FROM_UNIONID" property="fromUnionid" />
+        <result column="FROM_NICK_NAME" property="fromNickName" />
+        <result column="FROM_HEAD_IMG" property="fromHeadImg" />
+        <result column="FROM_ORDER_NO" property="fromOrderNo" />
+        <result column="TO_OPENID" property="toOpenid" />
+        <result column="TO_USERID" property="toUserid" />
+        <result column="TO_UNIONID" property="toUnionid" />
+        <result column="TO_NICK_NAME" property="toNickName" />
+        <result column="TO_HEAD_IMG" property="toHeadImg" />
+        <result column="TO_ORDER_NO" property="toOrderNo" />
+        <result column="TO_ORDER_STATUS" property="toOrderStatus" />
+        <result column="TO_ODER_TIME" property="toOderTime" />
+        <result column="TO_ORDER_CONFIRM_TIME" property="toOrderConfirmTime" />
+        <result column="RED_MONEY" property="redMoney" />
+        <result column="RED_STATUS" property="redStatus" />
+        <result column="RED_TIME" property="redTime" />
+        <result column="CREATE_TIME" property="createTime" />
+    </resultMap>
+
+
+    <update id="updateInvalid">
+        UPDATE t_3sale10_fission
+        SET TO_ORDER_STATUS = 0,
+        RED_STATUS = 0
+        WHERE
+        create_time &lt; date_add(NOW(), interval -120 minute)
+        AND TO_ORDER_STATUS = 1
+        AND TO_ORDER_STATUS != 0
+    </update>
+
+    <update id="updateFromUserId">
+     UPDATE t_3sale10_fission SET FROM_USERID=#{newUserId,jdbcType=BIGINT} WHERE FROM_USERID=#{oldUserId,jdbcType=BIGINT}
+   </update>
+
+    <update id="updateToUserId">
+     UPDATE t_3sale10_fission SET TO_USERID=#{newUserId,jdbcType=BIGINT} WHERE TO_USERID=#{oldUserId,jdbcType=BIGINT}
+   </update>
+
+</mapper>
